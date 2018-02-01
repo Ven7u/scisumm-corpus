@@ -1,7 +1,6 @@
 import pandas as pd
 from bs4 import BeautifulSoup
 import os
-
 import text_processing as tp
 
 #input_folder = "/Users/francescoventura/Documents/POLI/Corsi/dottorato/text mining and analytics/exam/scisumm-corpus-master/"
@@ -16,24 +15,10 @@ def get_ref_ids():
 
     return ["C00-2123"]
 
-def get_cit_ids():
+def get_cit_ids(ref_id, annotations):
 
-    return ["C02-1050",
-    "C04-1091",
-    "E03-1007",
-    "E06-1004",
-    "H01-1062",
-    "J03-1005",
-    "J04-2003",
-    "J04-4002",
-    "N03-1010",
-    "P01-1027",
-    "P03-1039",
-    "W01-0505",
-    "W01-1404",
-    "W01-1407",
-    "W01-1408",
-    "W02-1020"]
+    cit_ids = (annotations[annotations["Reference_Article"] == (ref_id+".xml")])["Citing_Article"].unique()
+    return map(lambda n: str.replace(n, ".xml", ""), cit_ids)
 
 
 def get_annotation_values(ann):
@@ -42,7 +27,7 @@ def get_annotation_values(ann):
     return ann_values
 
 def get_annotation_names(ann):
-    ann_names = [a.split(":", 1)[0].strip() for a in ann if len(ann) > 0]
+    ann_names = [str.replace(a.split(":", 1)[0].strip(), " ", "_") for a in ann if len(ann) > 0]
     return ann_names
 
 def load_annotation(set_folder,ref_id):
@@ -88,7 +73,8 @@ def load_ref_cit_tuple():
 def test_1():
 
     for ref_id in get_ref_ids():
-        for cit_id in get_cit_ids():
+        annotations = load_annotation(get_set_folder(), ref_id)
+        for cit_id in get_cit_ids(ref_id, annotations):
 
             #s1 = load_source(source_1, "CIT_PAPER_1")
             #s2 = load_source(source_2, "REF_PAPER")
@@ -130,7 +116,7 @@ def test_1():
 def main():
     load_annotation(get_set_folder(), get_ref_ids()[0])
 
-    #test_1()
+    test_1()
 
 
     return 0
