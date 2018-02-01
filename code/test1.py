@@ -104,13 +104,13 @@ def test_1():
             print(result)
 
 
-            out_folder = out_folder + ref_id + "/" + cit_id + "/"
+            out_folder_p = out_folder + ref_id + "/" + cit_id + "/"
             out_file = "related_sentences.csv"
 
-            if not os.path.exists(out_folder):
-                os.makedirs(out_folder)
+            if not os.path.exists(out_folder_p):
+                os.makedirs(out_folder_p)
 
-            result.to_csv(out_folder+out_file, index=False)
+            result.to_csv(out_folder_p+out_file, index=False)
 
 
 
