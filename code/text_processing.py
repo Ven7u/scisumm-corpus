@@ -57,7 +57,7 @@ def preprocess(sentences_df):
 def run_lsi(tf, vocabulary, sentences_df):
 
 
-    svd = TruncatedSVD(n_components=50)
+    svd = TruncatedSVD(n_components=20)
     svd_matrix_terms = svd.fit_transform(tf.T)
     svd_matrix_rows = svd.fit_transform(tf)
 
