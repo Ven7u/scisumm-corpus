@@ -8,7 +8,7 @@ import nltk
 import lxml
 import os
 
-import text_processing as tp
+from code import text_processing as tp
 
 #input_folder = "/Users/francescoventura/Documents/POLI/Corsi/dottorato/text mining and analytics/exam/scisumm-corpus-master/"
 input_folder = "../"
