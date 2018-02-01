@@ -128,9 +128,9 @@ def classification(ref_scores_df, cit_scores_df, annotations):
         x = str.replace(x, "]", "")
         x = str.replace(x, "\n", "")
         x = x.split(" ")
-        print("r1: ", x)
+        #print("r1: ", x)
         x = [float(y) for y in x if len(y) > 1]
-        print("r2: ", x)
+        #print("r2: ", x)
         values_x.append(x)
 
     X = values_x #map(x_cleaning, values_x)

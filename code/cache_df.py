@@ -23,4 +23,4 @@ class cache_df:
         joblib.dump(clf, self.cache_folder+name)
 
     def load_scikit_model(self, name):
-        return joblib.load(name)
+        return joblib.load(self.cache_folder+name)
