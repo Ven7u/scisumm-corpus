@@ -1,11 +1,5 @@
-from sklearn.decomposition import TruncatedSVD
-from sklearn.random_projection import sparse_random_matrix
-from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
-
 import pandas as pd
 from bs4 import BeautifulSoup
-import nltk
-import lxml
 import os
 
 import text_processing as tp
@@ -42,7 +36,26 @@ def get_cit_ids():
     "W02-1020"]
 
 
+def get_annotation_values(ann):
+    ann_values = [a.split(":", 1)[1].strip() for a in ann if len(ann) > 0]
+    #print(ann_values)
+    return ann_values
 
+def get_annotation_names(ann):
+    ann_names = [a.split(":", 1)[0].strip() for a in ann if len(ann) > 0]
+    return ann_names
+
+def load_annotation(set_folder,ref_id):
+    source = set_folder+ref_id+"/annotation/"+ref_id+".ann.txt"
+    with open(source) as ann:
+        content = ann.readlines()
+        annotation_names = get_annotation_names(content[0].strip().split(" | "))
+        annotations = [get_annotation_values(l.strip().split(" | ")) for l in content if len(l.strip()) > 0]
+
+    annotations = pd.DataFrame(annotations, columns=annotation_names)
+    print(annotations)
+
+    return annotations
 
 def load_ref_xml_source(set_folder,ref_id):
     return load_source(set_folder+ref_id+"/Reference_XML/"+ref_id+".xml",ref_id)
@@ -115,7 +128,10 @@ def test_1():
 
 
 def main():
-    test_1()
+    load_annotation(get_set_folder(), get_ref_ids()[0])
+
+    #test_1()
+
 
     return 0
 
