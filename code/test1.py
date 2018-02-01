@@ -8,10 +8,11 @@ import nltk
 import lxml
 import os
 
-from code import text_processing as tp
+import text_processing as tp
 
 #input_folder = "/Users/francescoventura/Documents/POLI/Corsi/dottorato/text mining and analytics/exam/scisumm-corpus-master/"
 input_folder = "../"
+out_folder = "../out/"
 data_folder = "data/"
 
 def get_set_folder(type = "Training", year = "2017"):
@@ -103,7 +104,7 @@ def test_1():
             print(result)
 
 
-            out_folder = "out/" + ref_id + "/" + cit_id + "/"
+            out_folder = out_folder + ref_id + "/" + cit_id + "/"
             out_file = "related_sentences.csv"
 
             if not os.path.exists(out_folder):
