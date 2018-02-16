@@ -2,6 +2,8 @@ import pandas as pd
 from bs4 import BeautifulSoup as bs
 import cache_df
 from sklearn import svm
+import math
+
 
 columns_to_remove = ['level_0', 'index']
 
@@ -87,6 +89,17 @@ def x_cleaning(r):
     print(r)
     return r
 
+def random_undersample(df):
+    negative_df = df[df["label"] == 0]
+    positive_df = df[df["label"] == 1]
+    n_negative_sample = math.ceil(len(positive_df.index) * 0.9 / 0.1)
+
+    print("#positive_sample:", len(positive_df.index))
+    print("#negative_sample:", n_negative_sample)
+
+    negative_sample_df = negative_df.sample(n=n_negative_sample, replace=False)
+    return pd.concat([positive_df, negative_sample_df], ignore_index=True)
+
 
 def classification(ref_scores_df, cit_scores_df, annotations):
     c = cache_df.cache_df()
@@ -113,7 +126,7 @@ def classification(ref_scores_df, cit_scores_df, annotations):
                                cit_scores_df[["CIT_doc", "CIT_sid", "CIT_features"]])\
             .sort_values(["REF_sid", "CIT_sid"])
 
-        labeled_dataset = create_label_column(dataset, annotations)
+        labeled_dataset = random_undersample(create_label_column(dataset, annotations))
 
         c.save_df(labeled_dataset, cache_file_name, index=False, line_terminator=";")
 
@@ -123,7 +136,10 @@ def classification(ref_scores_df, cit_scores_df, annotations):
     print(values_x_temp)
 
     values_x = []
+    #i=0
     for x in values_x_temp:
+        #i +=1
+        #print(i,x)
         x = str.replace(x, "[", "")
         x = str.replace(x, "]", "")
         x = str.replace(x, "\n", "")
@@ -145,8 +161,8 @@ def classification(ref_scores_df, cit_scores_df, annotations):
         clf = c.load_scikit_model(model_name)
 
     else:
-        clf = svm.SVC(class_weight={True: 0.8, False: 0.2}, max_iter=1000)
-        clf.fit(X, Y )
+        clf = svm.SVC(max_iter=10000) #class_weight={True: 0.8, False: 0.2}
+        clf.fit(X, Y)
         c.save_scikit_model(clf, model_name)
 
     print(clf)
