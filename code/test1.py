@@ -51,8 +51,8 @@ def get_ref_ids():
 def get_cit_ids(ref_id, annotations):
 
 
-    tmp = annotations[annotations["Reference_Article"] == (ref_id + ".xml")]
-    print(tmp)
+    #tmp = annotations[annotations["Reference_Article"] == (ref_id + ".xml")]
+    #print(tmp)
 
 
     cit_ids = (annotations)["Citing_Article"].unique()
@@ -79,7 +79,7 @@ def load_annotation(set_folder, ref_id):
         annotations = [get_annotation_values(l.strip().split(" | ")) for l in content if len(l.strip()) > 0]
 
     annotations = pd.DataFrame(annotations, columns=annotation_names)
-    print("annotations: ", annotations.columns)
+    #print("annotations: ", annotations.columns)
 
     return annotations
 
@@ -196,55 +196,64 @@ def test_4():
 
 def test_3():
     for ref_id in get_ref_ids():
-        ref_scores_collection = []
-        cit_scores_collection = []
+        try:
+            ref_scores_collection = []
+            cit_scores_collection = []
 
-        annotations = load_annotation(get_set_folder(), ref_id)
-        print(annotations)
+            annotations = load_annotation(get_set_folder(), ref_id)
+            #print(annotations)
 
-        s1 = load_ref_xml_source(get_set_folder(), ref_id)
-        ref_sentences_df = pd.DataFrame(data=s1)
-        print("//////////////////////////////////")
-        print(ref_sentences_df)
-        papers_tokens = []
+            s1 = load_ref_xml_source(get_set_folder(), ref_id)
+            ref_sentences_df = pd.DataFrame(data=s1)
+            print("//////////////////////////////////")
+            print(ref_sentences_df)
+            papers_tokens = []
 
-        for cit_id in get_cit_ids(ref_id, annotations):
-            # s1 = load_source(source_1, "CIT_PAPER_1")
-            # s2 = load_source(source_2, "REF_PAPER")
-            s2 = load_cit_xml_source(get_set_folder(), ref_id, cit_id)
-            sentences_df = pd.DataFrame(data=s2)
-            sentences_df["token_counts"] = sentences_df.apply(tp.tokens_count, axis=1)
-            sentences_df = sentences_df[((sentences_df["token_counts"] > 10) & (sentences_df["token_counts"] <= 70))]
+            for cit_id in get_cit_ids(ref_id, annotations):
+                # s1 = load_source(source_1, "CIT_PAPER_1")
+                # s2 = load_source(source_2, "REF_PAPER")
+                s2 = load_cit_xml_source(get_set_folder(), ref_id, cit_id)
+                sentences_df = pd.DataFrame(data=s2)
+                sentences_df["token_counts"] = sentences_df.apply(tp.tokens_count, axis=1)
+                sentences_df = sentences_df[((sentences_df["token_counts"] > 10) & (sentences_df["token_counts"] <= 70))]
 
-            print(len(sentences_df.index))
-            papers_tokens.append(sentences_df)
+                #print(len(sentences_df.index))
+                papers_tokens.append(sentences_df)
 
-        # print(papers_tokens)
-        papers_tokens.append(ref_sentences_df)
-        cit_ref_sentences_df = pd.concat(papers_tokens, ignore_index=True)
-        print(cit_ref_sentences_df)
+            # print(papers_tokens)
+            papers_tokens.append(ref_sentences_df)
+            cit_ref_sentences_df = pd.concat(papers_tokens, ignore_index=True)
+            #print(cit_ref_sentences_df)
 
-        vocabulary, tf = tp.preprocess(cit_ref_sentences_df)
+            vocabulary, tf = tp.preprocess(cit_ref_sentences_df)
 
-        lsi_terms, lsi_rows = tp.run_lsi(tf, vocabulary, cit_ref_sentences_df)
+            lsi_terms, lsi_rows = tp.run_lsi(tf, vocabulary, cit_ref_sentences_df)
 
-        print(lsi_rows.reset_index())
+            print(lsi_rows.reset_index())
 
-        for cit_id in get_cit_ids(ref_id, annotations):
-            ref_scores, cit_scores = tp.get_ref_and_cit_scores(lsi_rows, ref_id, cit_id)
-            ref_scores_collection.append(ref_scores)
-            cit_scores_collection.append(cit_scores)
+            for cit_id in get_cit_ids(ref_id, annotations):
+                ref_scores, cit_scores = tp.get_ref_and_cit_scores(lsi_rows, ref_id, cit_id)
+                ref_scores_collection.append(ref_scores)
+                cit_scores_collection.append(cit_scores)
 
-        cit_scores_df = pd.concat(cit_scores_collection)
-        print("cit_scores_df: ", cit_scores_df.columns)
-        print("cit_scores_df: ", cit_scores_df)
-        cit_scores_df[["doc", "sid"]].sort_values(["doc", "sid"]).to_csv("./cit_scores_df_test", index=False)
-        ref_scores_df = ref_scores_collection[0]
-        ref_scores_df[["doc", "sid"]].sort_values(["doc", "sid"]).to_csv("./ref_scores_df_test", index=False)
+            cit_scores_df = pd.concat(cit_scores_collection)
+            #print("cit_scores_df: ", cit_scores_df.columns)
+            #print("cit_scores_df: ", cit_scores_df)
+            cit_scores_df[["doc", "sid"]].sort_values(["doc", "sid"]).to_csv("./cit_scores_df_test", index=False)
+            ref_scores_df = ref_scores_collection[0]
+            ref_scores_df[["doc", "sid"]].sort_values(["doc", "sid"]).to_csv("./ref_scores_df_test", index=False)
 
-        # print("ref_scores_df: ", ref_scores_df.columns)
+            # print("ref_scores_df: ", ref_scores_df.columns)
 
-        tc.classification(ref_scores_df, cit_scores_df, annotations)
+            tc.prepare_classification(ref_scores_df, cit_scores_df, annotations)
+        except Exception:
+            print("skip ref_id:", ref_id)
+
+    labeled_dataset = tc.merge_labeled_dataset_from_cache(get_ref_ids())
+    labeled_dataset.to_csv("./labeled_dataset_test.csv", index=False)
+
+    tc.classification_train(labeled_dataset)
+        #tc.classification(ref_scores_df, cit_scores_df, annotations)
 
 
         # print(cit_scores_df)
@@ -279,15 +288,15 @@ def test_2():
             ref_scores_collection.append(ref_scores)
             cit_scores_collection.append(cit_scores)
 
-    cit_scores_df = pd.concat(cit_scores_collection)
-    print("cit_scores_df: ", cit_scores_df.columns)
-    cit_scores_df[["doc", "sid"]].sort_values(["doc", "sid"]).to_csv("./cit_scores_df_test", index=False)
-    ref_scores_df = ref_scores_collection[0]
-    ref_scores_df[["doc", "sid"]].sort_values(["doc", "sid"]).to_csv("./ref_scores_df_test", index=False)
+        cit_scores_df = pd.concat(cit_scores_collection)
+        print("cit_scores_df: ", cit_scores_df.columns)
+        cit_scores_df[["doc", "sid"]].sort_values(["doc", "sid"]).to_csv("./cit_scores_df_test", index=False)
+        ref_scores_df = ref_scores_collection[0]
+        ref_scores_df[["doc", "sid"]].sort_values(["doc", "sid"]).to_csv("./ref_scores_df_test", index=False)
 
-    print("ref_scores_df: ", ref_scores_df.columns)
+        print("ref_scores_df: ", ref_scores_df.columns)
 
-    tc.classification(ref_scores_df, cit_scores_df, annotations)
+        tc.classification(ref_scores_df, cit_scores_df, annotations)
 
 
     # print(cit_scores_df)
