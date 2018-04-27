@@ -1,3 +1,6 @@
+import sys
+import traceback
+
 import pandas as pd
 from bs4 import BeautifulSoup
 import os
@@ -13,9 +16,23 @@ data_folder = "data/"
 def get_set_folder(type="Training", year="2017"):
     return input_folder + data_folder + type + "-Set-" + year + "/"
 
+def get_ref_test_ids():
+    return [
+        "C98-1097",
+        "D09-1023",
+        "D10-1058",
+        "N09-1001",
+        "N09-1025",
+        "P00-1025",
+        "P07-1040",
+        "W06-3909",
+        "W09-0621",
+        "W11-0815",
+    ]
 
 def get_ref_ids():
-    return ["C00-2123",
+     return [
+         "C00-2123",
             "D10-1083",
             "J96-3004",
             "P06-2124",
@@ -94,19 +111,23 @@ def load_cit_xml_source(set_folder, ref_id, cit_id):
 
 def load_source(source, doc_name):
     file = source  # + str(id) + "/" + str(id) + "/DEFAULT/Part3DP.xml"  # sys.argv[1]
-    handler = open(file).read()
+    handler = open(file, 'rb').read()
     soup = BeautifulSoup(handler, 'xml')
 
     sentences = soup.findAll("S")
     sentences_dicts = []
     for s in sentences:
-        sentences_a = {}
-        sentences_a["doc"] = doc_name
-        sentences_a["sid"] = s["sid"]
-        # sentences_a["ssid"] = s["ssid"]
-        sentences_a["tagged_text"] = s
-        sentences_a["text"] = s.contents[0]
-        sentences_dicts.append(sentences_a)
+        try:
+            sentences_a = {}
+            sentences_a["doc"] = doc_name
+            sentences_a["sid"] = s["sid"]
+            # sentences_a["ssid"] = s["ssid"]
+            sentences_a["tagged_text"] = s
+            sentences_a["text"] = s.contents[0]
+            sentences_dicts.append(sentences_a)
+
+        except Exception:
+            print("skip sentence:", s)
     return sentences_dicts
 
 
@@ -194,8 +215,60 @@ def test_4():
     # print(cit_scores_df)
 
 
+
+def test_3_predict(ref_id):
+    try:
+        ref_scores_collection = []
+        cit_scores_collection = []
+        annotations = load_annotation(get_set_folder(type="Test", year="2017"), ref_id)
+        #print(annotations)
+        s1 = load_ref_xml_source(get_set_folder(type="Test", year="2017"), ref_id)
+        ref_sentences_df = pd.DataFrame(data=s1)
+        print("//////////////////////////////////")
+        print(ref_sentences_df)
+        papers_tokens = []
+        for cit_id in get_cit_ids(ref_id, annotations):
+            # s1 = load_source(source_1, "CIT_PAPER_1")
+            # s2 = load_source(source_2, "REF_PAPER")
+            s2 = load_cit_xml_source(get_set_folder(type="Test", year="2017"), ref_id, cit_id)
+            sentences_df = pd.DataFrame(data=s2)
+            sentences_df["token_counts"] = sentences_df.apply(tp.tokens_count, axis=1)
+            sentences_df = sentences_df[((sentences_df["token_counts"] > 10) & (sentences_df["token_counts"] <= 70))]
+            #print(len(sentences_df.index))
+            papers_tokens.append(sentences_df)
+        # print(papers_tokens)
+        papers_tokens.append(ref_sentences_df)
+        cit_ref_sentences_df = pd.concat(papers_tokens, ignore_index=True)
+        #print(cit_ref_sentences_df)
+        vocabulary, tf = tp.preprocess(cit_ref_sentences_df)
+        lsi_terms, lsi_rows = tp.run_lsi(tf, vocabulary, cit_ref_sentences_df)
+        print(lsi_rows.reset_index())
+        for cit_id in get_cit_ids(ref_id, annotations):
+            ref_scores, cit_scores = tp.get_ref_and_cit_scores(lsi_rows, ref_id, cit_id)
+            ref_scores_collection.append(ref_scores)
+            cit_scores_collection.append(cit_scores)
+        cit_scores_df = pd.concat(cit_scores_collection)
+        #print("cit_scores_df: ", cit_scores_df.columns)
+        #print("cit_scores_df: ", cit_scores_df)
+        cit_scores_df[["doc", "sid"]].sort_values(["doc", "sid"]).to_csv("./cit_scores_df_test", index=False)
+        ref_scores_df = ref_scores_collection[0]
+        ref_scores_df[["doc", "sid"]].sort_values(["doc", "sid"]).to_csv("./ref_scores_df_test", index=False)
+        # print("ref_scores_df: ", ref_scores_df.columns)
+        tc.prepare_classification_test_prediction(ref_scores_df, cit_scores_df, annotations)
+        tc.classification_predict(ref_id, "global_svm_rbf_model.pkl")
+
+    except Exception as ex:
+        print("Error in ref_id:", ref_id, "with exception:", ex)
+        traceback.print_exc()
+        sys.exit(-1)
+    #labeled_dataset = tc.merge_labeled_dataset_from_cache(get_ref_ids())
+    #labeled_dataset.to_csv("./labeled_dataset_test.csv", index=False)
+
+
+
 def test_3():
     for ref_id in get_ref_ids():
+        print("->running:", ref_id)
         try:
             ref_scores_collection = []
             cit_scores_collection = []
@@ -210,6 +283,7 @@ def test_3():
             papers_tokens = []
 
             for cit_id in get_cit_ids(ref_id, annotations):
+                print("--->citance:", cit_id)
                 # s1 = load_source(source_1, "CIT_PAPER_1")
                 # s2 = load_source(source_2, "REF_PAPER")
                 s2 = load_cit_xml_source(get_set_folder(), ref_id, cit_id)
@@ -229,7 +303,7 @@ def test_3():
 
             lsi_terms, lsi_rows = tp.run_lsi(tf, vocabulary, cit_ref_sentences_df)
 
-            print(lsi_rows.reset_index())
+            #print(lsi_rows.reset_index())
 
             for cit_id in get_cit_ids(ref_id, annotations):
                 ref_scores, cit_scores = tp.get_ref_and_cit_scores(lsi_rows, ref_id, cit_id)
@@ -246,13 +320,16 @@ def test_3():
             # print("ref_scores_df: ", ref_scores_df.columns)
 
             tc.prepare_classification(ref_scores_df, cit_scores_df, annotations)
-        except Exception:
-            print("skip ref_id:", ref_id)
+        except Exception as ex:
+            print("skip ref_id:", ref_id, " with error:", ex)
+            traceback.print_exc()
+            #sys.exit(-1)
 
     labeled_dataset = tc.merge_labeled_dataset_from_cache(get_ref_ids())
-    labeled_dataset.to_csv("./labeled_dataset_test.csv", index=False)
+    labeled_dataset.to_csv("./labeled_training_dataset.csv", index=False)
 
     tc.classification_train(labeled_dataset)
+    tc.decision_tree_classification_train(labeled_dataset)
         #tc.classification(ref_scores_df, cit_scores_df, annotations)
 
 
@@ -342,7 +419,18 @@ def test_1():
 
 def main():
     # test_2() # deprecated
+
     test_3() # modello lsa locale
+    for test_ref_id in get_ref_test_ids():
+        test_3_predict(test_ref_id)
+
+    labeled_dataset = tc.merge_test_labeled_dataset_from_cache(get_ref_test_ids())
+    labeled_dataset.to_csv("./labeled_test_dataset.csv", index=False)
+
+
+
+
+
     #test_4() # modello lsa globale
 
     return 0

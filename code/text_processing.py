@@ -47,7 +47,7 @@ def preprocess(sentences_df):
 
     tf_transformer = TfidfTransformer(use_idf=False).fit(X_train_counts)
     X_train_tf = tf_transformer.transform(X_train_counts)
-    print(X_train_tf.shape)
+    #print(X_train_tf.shape)
 
     return (vocabulary, X_train_tf)
 
@@ -61,8 +61,8 @@ def run_lsi(tf, vocabulary, sentences_df):
     svd_matrix_terms = svd.fit_transform(tf.T)
     svd_matrix_rows = svd.fit_transform(tf)
 
-    print(svd_matrix_terms.shape)
-    print(svd_matrix_rows.shape)
+    #print(svd_matrix_terms.shape)
+    #print(svd_matrix_rows.shape)
 
     lsi_terms = pd.DataFrame(svd_matrix_terms)
     lsi_terms = pd.merge(vocabulary, lsi_terms, left_index=True, right_index=True).reset_index().set_index(["index", "word"])
@@ -92,10 +92,10 @@ def get_cosine_similarities(ref_scores,cit_scores):
     x = ref_scores.iloc[:, 5:]
     y = cit_scores.iloc[:, 5:]
 
-    print(x)
-    print(y)
+    #print(x)
+    #print(y)
     cosine_scores = sklm.cosine_similarity(x, y)
-    print(cosine_scores.shape)
+    #print(cosine_scores.shape)
     return cosine_scores
 
 

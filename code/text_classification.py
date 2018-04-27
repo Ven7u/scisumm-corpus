@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup as bs
 import cache_df
 from sklearn import svm
 import math
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support
+from sklearn import tree
 
 
 columns_to_remove = ['level_0', 'index']
@@ -28,10 +30,10 @@ def build_check_string(ra, rt, ca, ct):
 
 
 def prepare_check_set(annotations):
-    ra = [str.replace(x, ".xml", "") for x in annotations["Reference_Article"].values]
+    ra = [str.replace(str.replace(x, ".xml", ""), ".txt", "") for x in annotations["Reference_Article"].values]
     rt = [(bs(x, 'xml').findAll("S")[0])["sid"] for x in annotations["Reference_Text"].values]
 
-    ca = [str.replace(x, ".xml", "") for x in annotations["Citing_Article"].values]
+    ca = [str.replace(str.replace(x, ".xml", ""), ".txt", "") for x in annotations["Citing_Article"].values]
     ct = [(bs(x, 'xml').findAll("S")[0])["sid"] for x in annotations["Citation_Text"].values]
 
     check_set = list()
@@ -107,8 +109,18 @@ def build_check_string_2(ca, ct):
 
 def prepare_check_set_2(annotations):
 
-    ca = [str.replace(x, ".xml", "") for x in annotations["Citing_Article"].values]
+    ca = [str.replace(str.replace(x, ".xml", ""), ".txt", "") for x in annotations["Citing_Article"].values]
     ct = [(bs(x, 'xml').findAll("S")[0])["sid"] for x in annotations["Citation_Text"].values]
+
+    check_set = list()
+    for i in range(0, len(ca)):
+        check_set.append(build_check_string_2(ca[i], ct[i]))
+    return set(check_set)
+
+def prepare_check_set_2_ref(annotations):
+
+    ca = [str.replace(str.replace(x, ".xml", ""), ".txt", "") for x in annotations["Reference_Article"].values]
+    ct = [(bs(x, 'xml').findAll("S")[0])["sid"] for x in annotations["Reference_Text"].values]
 
     check_set = list()
     for i in range(0, len(ca)):
@@ -125,8 +137,17 @@ def check_label_2(r, check_set):
         r["label"] = False
         return r
 
+def check_label_2_ref(r, check_set):
 
-def random_undersample_cit(cit_scores_df, annotations):
+    if build_check_string_2(r["REF_doc"], r["REF_sid"]) in check_set:
+        r["label"] = True
+        return r
+    else:
+        r["label"] = False
+        return r
+
+
+def random_undersample_cit(cit_scores_df, annotations, th = 0.2):
     check_set = prepare_check_set_2(annotations)
     print("check set:", check_set)
 
@@ -135,10 +156,24 @@ def random_undersample_cit(cit_scores_df, annotations):
     count = cit_scores_df.groupby(["label"]).count()
     print(count)
 
-    cit_scores_df = random_undersample(cit_scores_df, 0.5)
+    cit_scores_df = random_undersample(cit_scores_df, th)
     #print(cit_scores_df)
 
     return cit_scores_df
+
+def random_undersample_ref(ref_scores_df, annotations):
+    check_set = prepare_check_set_2_ref(annotations)
+    print("check set:", check_set)
+
+    ref_scores_df = ref_scores_df.apply(lambda r: check_label_2_ref(r, check_set), axis=1)
+
+    count = ref_scores_df.groupby(["label"]).count()
+    print(count)
+
+    ref_scores_df = random_undersample(ref_scores_df, 0.5)
+    #print(cit_scores_df)
+
+    return ref_scores_df
 
 
 
@@ -162,13 +197,25 @@ def prepare_classification(ref_scores_df, cit_scores_df, annotations):
                                           create_feature_column(
                                               drop_usless_columns(cit_scores_df)))
 
+        print("sampling cit_scores")
         cit_scores_sampled_df = random_undersample_cit(cit_scores_df[["CIT_doc", "CIT_sid", "CIT_features"]], annotations)
+        print("sampling ref_scores")
+        ref_scores_sampled_df = ref_scores_df#random_undersample_ref(ref_scores_df[["REF_doc", "REF_sid", "REF_features"]], annotations)
 
-        dataset = df_crossjoin(ref_scores_df[["REF_doc", "REF_sid", "REF_features"]],
+
+        dataset = df_crossjoin(ref_scores_sampled_df[["REF_doc", "REF_sid", "REF_features"]],
                                cit_scores_sampled_df[["CIT_doc", "CIT_sid", "CIT_features"]]) \
             .sort_values(["REF_sid", "CIT_sid"])
 #
         labeled_dataset = create_label_column(dataset, annotations)
+
+
+        #post undersample
+        #labeled_dataset = random_undersample(labeled_dataset, 0.2)
+
+        print("final dimensionality:")
+        print(labeled_dataset.groupby(["label"]).count())
+
 #
         c.save_df(labeled_dataset, cache_file_name, index=False, line_terminator=";")
 
@@ -176,14 +223,41 @@ def prepare_classification(ref_scores_df, cit_scores_df, annotations):
     return labeled_dataset
 
 
+def prepare_classification_test_prediction(ref_scores_df, cit_scores_df, annotations):
+    c = cache_df.cache_df()
+
+    ref_id = (ref_scores_df["doc"].values)[0]
+    cache_file_name = ref_id + "_labeled_test_dataset.csv"
+    print(cache_file_name)
+
+    if c.check(cache_file_name):
+        labeled_dataset = c.load_df(cache_file_name, lineterminator=";")
+    else:
+        ref_scores_df = set_column_prefix("REF_",
+                                          create_feature_column(
+                                              drop_usless_columns(ref_scores_df)))
+
+        cit_scores_df = set_column_prefix("CIT_",
+                                          create_feature_column(
+                                              drop_usless_columns(cit_scores_df)))
+
+        cit_scores_sampled_df = random_undersample_cit(cit_scores_df[["CIT_doc", "CIT_sid", "CIT_features"]], annotations, 0.2)
+
+        dataset = df_crossjoin(ref_scores_df[["REF_doc", "REF_sid", "REF_features"]],
+                               cit_scores_sampled_df[["CIT_doc", "CIT_sid", "CIT_features"]]) \
+            .sort_values(["REF_sid", "CIT_sid"])
+        #
+        labeled_dataset = create_label_column(dataset, annotations)
+        c.save_df(labeled_dataset, cache_file_name, index=False, line_terminator=";")
+
+    return labeled_dataset
+
 def merge_labeled_dataset_from_cache(ref_ids):
     global_ref_labeled_dataset = []
     c = cache_df.cache_df()
 
-
     for ref_id in ref_ids:
         try:
-
             cache_file_name = ref_id + "_labeled_dataset.csv"
             labeled_dataset = c.load_df(cache_file_name, lineterminator=";")
             global_ref_labeled_dataset.append(labeled_dataset)
@@ -191,6 +265,72 @@ def merge_labeled_dataset_from_cache(ref_ids):
             print("skip:", ref_id)
 
     return pd.concat(global_ref_labeled_dataset, ignore_index=True)
+
+def merge_test_labeled_dataset_from_cache(ref_ids):
+    global_ref_labeled_dataset = []
+    c = cache_df.cache_df()
+
+    for ref_id in ref_ids:
+        try:
+            cache_file_name = ref_id + "_labeled_test_dataset.csv"
+            labeled_dataset = c.load_df(cache_file_name, lineterminator=";")
+            global_ref_labeled_dataset.append(labeled_dataset)
+        except Exception:
+            print("skip:", ref_id)
+
+    return pd.concat(global_ref_labeled_dataset, ignore_index=True)
+
+
+def get_X_features(labeled_dataset):
+    values_x_temp = (labeled_dataset["REF_features"] + labeled_dataset["CIT_features"]).values
+    type(values_x_temp)
+    print(values_x_temp)
+
+    values_x = []
+    # i=0
+    for x in values_x_temp:
+        # i +=1
+        # print(i,x)
+        x = str.replace(x, "[", "")
+        x = str.replace(x, "]", "")
+        x = str.replace(x, "\n", "")
+        x = x.split(" ")
+        # print("r1: ", x)
+        x = [float(y) for y in x if len(y) > 1]
+        # print("r2: ", x)
+        values_x.append(x)
+    return values_x
+
+
+
+def decision_tree_classification_train(labeled_dataset):
+    c = cache_df.cache_df()
+
+    labeled_dataset = random_undersample(labeled_dataset, th=0.1)
+
+    count = labeled_dataset.groupby(["label"]).count()
+    print("Count", count)
+
+    X = get_X_features(labeled_dataset)  # map(x_cleaning, values_x)
+
+    Y = labeled_dataset["label"].values
+
+    Y = [bool(y) for y in Y]
+
+    print("Y",Y)
+    model_name = "global_decision_tree_model.pkl"
+    print(model_name)
+
+    if c.check(model_name):
+        clf = c.load_scikit_model(model_name)
+
+    else:
+        clf = tree.DecisionTreeClassifier()
+        clf = clf.fit(X, Y)
+        c.save_scikit_model(clf, model_name)
+
+    print(clf)
+
 
 def classification_train(labeled_dataset):
     c = cache_df.cache_df()
@@ -227,18 +367,108 @@ def classification_train(labeled_dataset):
     print("Y",Y)
 
 
-    model_name = "global_svm_model.pkl"
-    print(model_name)
+    model_name = "global_svm_rbf_model.pkl"
+    print("training_model_name", model_name)
+
+
+    pd.DataFrame({"X":X,"Y":Y}).to_csv("training_set.csv")
 
     if c.check(model_name):
         clf = c.load_scikit_model(model_name)
 
     else:
-        clf = svm.SVC(max_iter=100000, class_weight={True: 0.8, False: 0.2})  # class_weight={True: 0.8, False: 0.2}
+        clf = svm.SVC(max_iter=100000, class_weight={True: 0.8, False: 0.2}, kernel='rbf')  # class_weight={True: 0.8, False: 0.2}
         clf.fit(X, Y)
         c.save_scikit_model(clf, model_name)
 
     print(clf)
+
+
+# def classification_predict(ref_id):
+#     c = cache_df.cache_df()
+#
+#     model_name = "global_svm_model.pkl"
+#     if c.check(model_name):
+#         clf = c.load_scikit_model(model_name)
+#
+#     cache_file_name = ref_id + "_labeled_test_dataset.csv"
+#
+#     if c.check(cache_file_name):
+#         labeled_dataset = c.load_df(cache_file_name, lineterminator=";")
+#     else:
+#         raise Exception("No test dataset {0}".format(cache_file_name))
+#
+#
+#     print(labeled_dataset)
+#
+#     X = get_X_features(labeled_dataset)
+#     print(X)
+#     results = clf.predict(X)
+#
+#     print(results)
+#
+#     y_true = labeled_dataset["label"]
+#     y_pred = results
+#
+#     acc = accuracy_score(y_true, y_pred)
+#
+#     p, r, fs, supp = precision_recall_fscore_support(y_true,y_pred)
+#
+#     print("accuracy", acc)
+#     print("precision", p)
+#     print("recall", r)
+#     print("support", supp)
+#
+#
+#     labeled_dataset["result"] = results
+#
+#     print("prhases:", labeled_dataset[labeled_dataset["result"] == True])
+#
+#     return
+
+
+
+def classification_predict(ref_id, model_name = "global_svm_model.pkl"):
+    print("prediction_model_name", model_name)
+    c = cache_df.cache_df()
+
+    if c.check(model_name):
+        clf = c.load_scikit_model(model_name)
+
+    cache_file_name = ref_id + "_labeled_test_dataset.csv"
+
+    if c.check(cache_file_name):
+        labeled_dataset = c.load_df(cache_file_name, lineterminator=";")
+    else:
+        raise Exception("No test dataset {0}".format(cache_file_name))
+
+
+    #print(labeled_dataset)
+
+    X = get_X_features(labeled_dataset)
+    #print(X)
+    results = clf.predict(X)
+
+    #print(results)
+
+    y_true = labeled_dataset["label"]
+    y_pred = results
+
+    acc = accuracy_score(y_true, y_pred)
+
+    p, r, fs, supp = precision_recall_fscore_support(y_true,y_pred)
+
+    print("accuracy", acc)
+    print("precision", p)
+    print("recall", r)
+    print("support", supp)
+
+
+    labeled_dataset["result"] = results
+
+    print("prhases:", labeled_dataset[labeled_dataset["result"] == True])
+
+    return
 
 
 
