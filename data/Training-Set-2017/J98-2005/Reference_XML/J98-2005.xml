@@ -33,12 +33,12 @@
 			<S sid ="28" ssid = "28">a What if p is estimated from data?</S>
 			<S sid ="29" ssid = "29">Given a set of finite parse trees wl, w2 ..... w,, the maximum-likelihood estimator for p (see Section 2) is, sensibly enough, the &quot;relative frequency&quot; estimator y&apos;~nlf(A ~ AA; wi) ~i=1 [f(A ~ AA; wi) + f(A ~ a;wi)] where f(.;w) is the number of occurrences of the production &quot;.&quot; in the tree w. The sentence a m, although ambiguous (there are multiple parses when m &gt; 2), always involves m - 1 of the A ~ AA productions and m of the A ~ a productions.</S>
 			<S sid ="30" ssid = "30">Hence f(A ~ AA; Odi) &lt; f(A ~ a; odi) for each wi.</S>
-			<S sid ="31" ssid = "31">Consequently: f(A ---+AA;wi) &lt; l[f(A ~ AA;~i) + f(A ~ a;wi)] for each wi, and ~ &lt; ½.</S>
+			<S sid ="31" ssid = "31">Consequently: f(A ---+AA;wi) &lt; l[f(A ~ AA;~i) + f(A ~ a;wi)] for each wi, and ~ &lt; .</S>
 			<S sid ="32" ssid = "32">The maximum-likelihood probability is tight.</S>
 			<S sid ="33" ssid = "33">If only the yields (left-to-right sequence of terminals) Y(o;1), Y(w2).....</S>
 			<S sid ="34" ssid = "34">Y(wn) are available, the EM algorithm can be used to iteratively &quot;climb&quot; the likelihood surface (see Section 2).</S>
 			<S sid ="35" ssid = "35">In the simple example here, the estimator converges in one step and is the same ~ as if we had observed the entire parse tree for each wi.</S>
-			<S sid ="36" ssid = "36">Thus, ~ is again less than ½ and the distribution is again tight.</S>
+			<S sid ="36" ssid = "36">Thus, ~ is again less than  and the distribution is again tight.</S>
 	</SECTION>
 	<SECTION title="Maximum-Likelihood Estimation. " number = "2">
 			<S sid ="37" ssid = "1">More generally, let G -- (V, T, R, S) denote a context-free grammar with finite variable set V, start symbol S E V, finite terminal set T, and finite production (or rule) set R.</S>
@@ -47,7 +47,7 @@
 			<S sid ="40" ssid = "4">In the usual way, probabilities are introduced through the productions: P : R --~ [0,1] such that VA E V: p(A -~ c~) = 1.</S>
 			<S sid ="41" ssid = "5">(1) orE(rUT)* s.t.</S>
 			<S sid ="42" ssid = "6">(A~c~)ER Chi and Geman Probabilistic Context-Free Grammars Given a set of finite parse trees cab ca2,..., can, drawn independently according to the distribution imposed by p, we wish to estimate p. In terms of the frequency function f, introduced in Section 1, the likelihood of the data is L = L(p;cal,ca2 ..... con) n = II II p(AY i=1 (A~)ER Recall the derivation of the maximum-likelihood estimator of p: The log of the likelihood is: n ~ ~f(A --+ a;cai)logp(A ~ a).</S>
-			<S sid ="43" ssid = "7">(2) AEV a s.t. i=1 The function p : R ~ [0,1] subject to (1) that maximizes (2) satisfies: 6 AAp(A ~ a) + f(A ~ a;cai)logp(A ~ a) = 0 AEV • • i=1 (A~o~)ER V(B ~/3) E R where {AA}AEV are Lagrange multipliers.</S>
+			<S sid ="43" ssid = "7">(2) AEV a s.t. i=1 The function p : R ~ [0,1] subject to (1) that maximizes (2) satisfies: 6 AAp(A ~ a) + f(A ~ a;cai)logp(A ~ a) = 0 AEV   i=1 (A~o~)ER V(B ~/3) E R where {AA}AEV are Lagrange multipliers.</S>
 			<S sid ="44" ssid = "8">Denote the maximum-likelihood estimator by fi: n B AB q- ~i=lf( --+ /3;ca;) = 0 V(S ~ /3) E R f,(B +/3) Since ~ fi(B+/3)=l) fl sA.</S>
 			<S sid ="45" ssid = "9">(8~fl)ea ~(B --~/3) = ~=lf(B --~/3;cai) (3) c~ s.t. H &lt;B-~)e~ ~i=lf(B ---+o4cai) The maximum-likelihood estimator is the natural, &quot;relative frequency,&quot; estimator.</S>
 			<S sid ="46" ssid = "10">Suppose B E V is unobserved among the parse trees cabc02,-..,can.</S>
@@ -63,7 +63,7 @@
 			<S sid ="56" ssid = "20">Usually the derivation trees are unobserved--the sample, or corpus, contains only the yields Y(wl), Y(w2) .....</S>
 			<S sid ="57" ssid = "21">Y(wn) (Y(wi) E T* for each 1 &lt; i &lt; n).</S>
 			<S sid ="58" ssid = "22">The likelihood is substantially more complex, since p(Y(w)) is now a marginal probability; we need to sum over the set of w E f~ that yield Y(w): p(Y(w)) = E p(Y(w&apos;)).</S>
-			<S sid ="59" ssid = "23">wlEU~ Y(w¢)=Y(oa) In the case where only yields are observed, the treatment is complicated considerably by the possibility of null productions (A --, 0) and unit productions (A ~ B E V).</S>
+			<S sid ="59" ssid = "23">wlEU~ Y(w)=Y(oa) In the case where only yields are observed, the treatment is complicated considerably by the possibility of null productions (A --, 0) and unit productions (A ~ B E V).</S>
 			<S sid ="60" ssid = "24">If, however, the language of the grammar does not include the null string, then there is an equivalent grammar (one with the same language) that has no null productions and no unit productions (cf.</S>
 			<S sid ="61" ssid = "25">Hopcroft &amp; Ullman [1979], Theorem 4.4).</S>
 			<S sid ="62" ssid = "26">It is, then, perhaps best to simplify the treatment by assuming that there are no null or unit productions.</S>
@@ -81,7 +81,7 @@
 	</SECTION>
 	<SECTION title="Tightness of the Maximum-Likelihood Estimator. " number = "3">
 			<S sid ="74" ssid = "1">Given a context-free grammar G = (V, T, R, S), let f2 be the set of finite parse trees, let p : R ~ [0,1] be a system of production probabilities satisfying (1), and let wl, w2,.</S>
-			<S sid ="75" ssid = "2">•., w, be a set (sample) of finite parse trees 0;k EfL For now, null and unit productions are permitted.</S>
+			<S sid ="75" ssid = "2">., w, be a set (sample) of finite parse trees 0;k EfL For now, null and unit productions are permitted.</S>
 			<S sid ="76" ssid = "3">Finally, let ~ be the maximum-likelihood estimator of p, as defined by (3).</S>
 			<S sid ="77" ssid = "4">(See also the remarks following [3] concerning variables unobserved in wl, 0;2 ....</S>
 			<S sid ="78" ssid = "5">, w,.)</S>
@@ -90,8 +90,8 @@
 			<S sid ="81" ssid = "8">We will show that qs = 0 (i.e., derivation trees rooted with S always terminate).</S>
 			<S sid ="82" ssid = "9">For each A E V, let F(A; w) be the number of instances of A in w and let F(A; w) be the number of nonroot instances of A in w. Given oz E (V U T)*, let nA(cZ)be the number of instances of A in the string o~, and, finally, let ai be the ith component of the string o~.</S>
 			<S sid ="83" ssid = "10">For any A E V: qA = p(UBEv U ..... t~,~ U i s,t. oti=B{Olifails to terminate}) -~ Z p(U a s.t. B~c, [-Ji s.t. o~i=B {Oli fails to terminate}) (A~c,)ERBEV = Z Z fi(A ~ c~)~(Ui s.t. ozi=B{Olifails to terminate}lA ~ ol) BEV a s.t. B~c, (A~c~)ER &lt; ~ ~ ~(A~cz)nB(eOqB BEV a s.t. aEc~ { Y]~, .~, nB(a) Y&apos;~i__,f(A ---* ol;wi) } .... n s, &quot; a B*V E(A~,e a ~i=lf( ----r OGWi) { ~in=l E .....</S>
-			<S sid ="84" ssid = "11">,~,~ nB(ol)f(A --&apos;~ Ol;Wi) } qB n BEV Ei=I Z ,Z~&apos;i~af(A ~ °Gwi) { ~in=l ~ ~.&apos;.</S>
-			<S sid ="85" ssid = "12">&quot;E~ nn(ol)f(A &quot;---~ Ol;Wi) } Z (A~cQER = qB n BEV Zi=I F(A;¢0i) yt qA Z F(A; wi) Z qB ~ Z nB(OOf(m ~ OGCdi) i=1 BEV i=1 a s.t. Be~ (A~o,)ER Computational Linguistics Volume 24, Number 2 Sum over A E V: E qA E F(A;wi) AEV i~-1 _&lt; E qB ~ E E nB(ol)f(A ~ BEV i=1 AEV c~ s.t. B~a (A~c~)ER c~;wi) n = ~ qB ~l:(B;wi) BEV i=1 i.e./ H qA E(Ie(A;wi) -F(A;wi)) ~ 0 AEV i=1 Clearly, for every i = 1,2,...,n F(A;wi) = F(A;wi) whenever A # S and F(S;wi) &lt; F(S; wi).</S>
+			<S sid ="84" ssid = "11">,~,~ nB(ol)f(A --&apos;~ Ol;Wi) } qB n BEV Ei=I Z ,Z~&apos;i~af(A ~ Gwi) { ~in=l ~ ~.&apos;.</S>
+			<S sid ="85" ssid = "12">&quot;E~ nn(ol)f(A &quot;---~ Ol;Wi) } Z (A~cQER = qB n BEV Zi=I F(A;0i) yt qA Z F(A; wi) Z qB ~ Z nB(OOf(m ~ OGCdi) i=1 BEV i=1 a s.t. Be~ (A~o,)ER Computational Linguistics Volume 24, Number 2 Sum over A E V: E qA E F(A;wi) AEV i~-1 _&lt; E qB ~ E E nB(ol)f(A ~ BEV i=1 AEV c~ s.t. B~a (A~c~)ER c~;wi) n = ~ qB ~l:(B;wi) BEV i=1 i.e./ H qA E(Ie(A;wi) -F(A;wi)) ~ 0 AEV i=1 Clearly, for every i = 1,2,...,n F(A;wi) = F(A;wi) whenever A # S and F(S;wi) &lt; F(S; wi).</S>
 			<S sid ="86" ssid = "13">Hence qs = 0, completing the proof of the theorem.</S>
 			<S sid ="87" ssid = "14">[] Now let ~, be the system of probabilities produced by the nth iteration of the EM Algorithm (5): Corollary If R contains no null productions and no unit productions, then ~,(f~) = 1 Vn &gt; 1.</S>
 			<S sid ="88" ssid = "15">Proof Almost identical, except that we use (5) in place of (3) and end up with: n E qA EEG_1[F(A;wi) -F(A;wi)lw C fly(w,)] ~ 0.</S>

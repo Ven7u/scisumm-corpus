@@ -1,11 +1,11 @@
 <PAPER>
 	<ABSTRACT>
-		<S sid ="1" ssid = "1">In this paper, we describe the UKP Lab system participating in the Semeval2013 task“Word Sense Induction and Disambiguationwithin an End-User Application”.</S>
+		<S sid ="1" ssid = "1">In this paper, we describe the UKP Lab system participating in the Semeval2013 taskWord Sense Induction and Disambiguationwithin an End-User Application.</S>
 		<S sid ="2" ssid = "2">Our approach uses preprocessing, co-occurrence extraction, graph clustering, and a state-of-the-art word sense disambiguation system.</S>
 		<S sid ="3" ssid = "3">Wedeveloped a configurable pipeline which canbe used to integrate and evaluate other components for the various steps of the complextask.</S>
 	</ABSTRACT>
 	<SECTION title="Introduction" number = "1">
-			<S sid ="4" ssid = "4">The task “Evaluating Word Sense Induction andWord Sense Disambiguation in an End-User Application” of SemEval2013 (Navigli and Vannella,2013) aims at an extrinsic evaluation scheme forWSI to overcome the difficulties inherent to WSIevaluation.</S>
+			<S sid ="4" ssid = "4">The task Evaluating Word Sense Induction andWord Sense Disambiguation in an End-User Application of SemEval2013 (Navigli and Vannella,2013) aims at an extrinsic evaluation scheme forWSI to overcome the difficulties inherent to WSIevaluation.</S>
 			<S sid ="5" ssid = "5">The task requires building a WSI system and combining it with a WSD step to assign theinduced sentences to example instances.</S>
 			<S sid ="6" ssid = "6">Word sense disambiguation (WSD) is the taskof determining the correct meaning for an ambiguous word from its context.</S>
 			<S sid ="7" ssid = "7">WSD algorithms usually choose one sense out of a given set of possiblesenses for each word.</S>
@@ -20,7 +20,7 @@
 			<S sid ="16" ssid = "16">Each entry consists ofthe title, a snippet and the URL of the correspondingweb page.</S>
 	</SECTION>
 	<SECTION title="Related Work. " number = "2">
-			<S sid ="17" ssid = "1">One of the early approaches to WSI (Schu¨tze, 1998)maps words into a vector space and representsword contexts as vector-sums and use cosine vector similarity, clustering is performed by expectationmaximization (EM) clustering.</S>
+			<S sid ="17" ssid = "1">One of the early approaches to WSI (Schutze, 1998)maps words into a vector space and representsword contexts as vector-sums and use cosine vector similarity, clustering is performed by expectationmaximization (EM) clustering.</S>
 			<S sid ="18" ssid = "2">Dorow and Widdows (2003) use the BNC to build a cooccurrencegraph for nouns, based on a co-occurrence frequency threshold.</S>
 			<S sid ="19" ssid = "3">They perform Markov clustering on this graph.</S>
 			<S sid ="20" ssid = "4">Pantel and Lin (2002) proposesa clustering approach called clustering by committee (CBC).</S>
@@ -50,7 +50,7 @@
 			<S sid ="42" ssid = "14">3.2 Co-occurrence Extraction.</S>
 			<S sid ="43" ssid = "15">We calculate the log-likelihood ratio (LLR) (Dunning, 1993) and point-wise mutual information(PMI) (Church and Hanks, 1990) of a word pair co-occurring at sentence level using a modified versionof the collocation statistics implemented in ApacheMahout 2.</S>
 			<S sid ="44" ssid = "16">Even when sorting the co-occurrences byPMI, we employ a minimum support cutoff basedon the LLR, which is based on significance.</S>
-			<S sid ="45" ssid = "17">Allpairs with a log-likelihood ratio &lt; 1 are discarded.This value is lower than the significance level of 3˜.8we found in the literature, but because in the expand step (see algorithm 2) we require more thantwo words to co-occur with the target word, we useda lower value.</S>
+			<S sid ="45" ssid = "17">Allpairs with a log-likelihood ratio &lt; 1 are discarded.This value is lower than the significance level of 3.8we found in the literature, but because in the expand step (see algorithm 2) we require more thantwo words to co-occur with the target word, we useda lower value.</S>
 			<S sid ="46" ssid = "18">We use the English Wikipedia 3 andukWaC (Baroni et al., 2009) as background corpus.Table 1 gives an overview about the obtained co-occurrence pairs.</S>
 			<S sid ="47" ssid = "19">3.3 Clustering Algorithm.</S>
 			<S sid ="48" ssid = "20">The algorithm is a two-step approach that first creates an initial clustering of a graph G = (V,E)and then improves this clustering in a second step.The initial step (Algorithm 1) starts by retrieving thetop n = 150 most similar terms for the target wordby querying the co-occurrence database we createdin section 3.2.</S>
@@ -73,7 +73,7 @@
 			<S sid ="65" ssid = "37">Instead ofusing sense descriptions, we now compute the overlap between the sense clusters and the context ofthe target word.</S>
 			<S sid ="66" ssid = "38">The WSD system expands boththe word context and the sense clusters with synonyms from a distributional thesaurus (DT), similarto Lin (1998).</S>
 			<S sid ="67" ssid = "39">The DT has been created from 10Mdependency-parsed sentences of English newswire 214 Run F1 ARI RI JI # clusters avg cl. sizewackyllr 0.5826 0.0253 0.5002 0.3394 3.6400 32.3434wpllr 0.5864 0.0377 0.5109 0.3177 4.1700 21.8702wppmi 0.6048 0.0364 0.5050 0.2932 5.8600 30.3098 Table 2: Results for the submitted runs from the Leipzig Corpora Collection (Biemann etal., 2007) for word similarity5.</S>
-			<S sid ="68" ssid = "40">Besides knowledge-based WSD, the DT also has been successfully usedfor improving the performance of semantic text similarity (Ba¨r et al., 2012).</S>
+			<S sid ="68" ssid = "40">Besides knowledge-based WSD, the DT also has been successfully usedfor improving the performance of semantic text similarity (Bar et al., 2012).</S>
 			<S sid ="69" ssid = "41">The WSD component disambiguates each instance of the search query withinthe snippet and web page individually.</S>
 	</SECTION>
 	<SECTION title="Results. " number = "4">

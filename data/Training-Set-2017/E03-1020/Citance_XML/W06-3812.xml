@@ -11,35 +11,35 @@
 			<S sid ="7" ssid = "7">Traditionally, language objects are characterized by a feature vector.</S>
 			<S sid ="8" ssid = "8">These feature vectors can be interpreted as points in a multidimensional space.</S>
 			<S sid ="9" ssid = "9">The clustering uses a distance metric, e.g. the cosine of the angle between two such vectors.</S>
-			<S sid ="10" ssid = "10">As in NLP there are often several thousand features, of which only a few correlate with each other at a time – think about the number of different words as opposed to the number of words occurring in a sentence – dimensionality reduction techniques can greatly reduce complexity without considerably losing accuracy.</S>
+			<S sid ="10" ssid = "10">As in NLP there are often several thousand features, of which only a few correlate with each other at a time  think about the number of different words as opposed to the number of words occurring in a sentence  dimensionality reduction techniques can greatly reduce complexity without considerably losing accuracy.</S>
 			<S sid ="11" ssid = "11">An alternative representation that does not deal with dimensions in space is the graph representation.</S>
 			<S sid ="12" ssid = "12">A graph represents objects (as nodes) and their relations (as edges).</S>
 			<S sid ="13" ssid = "13">In NLP, there are a variety of structures that can be naturally represented as graphs, e.g. lexical-semantic word nets, dependency trees, co-occurrence graphs and hyperlinked documents, just to name a few.</S>
 			<S sid ="14" ssid = "14">Clustering graphs is a somewhat different task than clustering objects in a multidimensional space: There is no distance metric; the similarity between objects is encoded in the edges.</S>
 			<S sid ="15" ssid = "15">Objects that do not share an edge cannot be compared, which gives rise to optimization techniques.</S>
-			<S sid ="16" ssid = "16">There is no centroid or ‘average cluster member’ in a graph, permitting centroid-based techniques.</S>
+			<S sid ="16" ssid = "16">There is no centroid or average cluster member in a graph, permitting centroid-based techniques.</S>
 			<S sid ="17" ssid = "17">As data sets in NLP are usually large, there is a strong need for efficient methods, i.e. of low computational complexities.</S>
 			<S sid ="18" ssid = "18">In this paper, a very efficient graph-clustering algorithm is introduced that is capable of partitioning very large graphs in comparatively short time.</S>
 			<S sid ="19" ssid = "19">Especially for small-world graphs (Watts, 1999), high performance is reached in quality and speed.</S>
 			<S sid ="20" ssid = "20">After explaining the algorithm in the next section, experiments with synthetic graphs are reported in section 3.</S>
-			<S sid ="21" ssid = "21">These give an insight about the algorithm’s performance.</S>
+			<S sid ="21" ssid = "21">These give an insight about the algorithms performance.</S>
 			<S sid ="22" ssid = "22">In section 4, experiments on three NLP tasks are reported, section 5 concludes by discussing extensions and further application areas.</S>
 	</SECTION>
 	<SECTION title="Chinese Whispers Algorithm. " number = "2">
 			<S sid ="23" ssid = "1">In this section, the Chinese Whispers (CW) algorithm is outlined.</S>
 			<S sid ="24" ssid = "2">After recalling important concepts from Graph Theory (cf.</S>
-			<S sid ="25" ssid = "3">Bollobás 1998), we describe two views on the algorithm.</S>
+			<S sid ="25" ssid = "3">Bollobs 1998), we describe two views on the algorithm.</S>
 			<S sid ="26" ssid = "4">The 73 second view is used to relate CW to another graph clustering algorithm, namely MCL (van Dongen, 2000).</S>
 			<S sid ="27" ssid = "5">We use the following notation throughout this paper: Let G=(V,E) be a weighted graph with nodes (vi)?V and weighted edges (vi, vj, wij) ?E with weight wij.</S>
 			<S sid ="28" ssid = "6">If (vi, vj, wij)?E implies (vj, vi, wij)?E, then the graph is undirected.</S>
 			<S sid ="29" ssid = "7">If all weights are 1, G is called unweighted.</S>
 			<S sid ="30" ssid = "8">The degree of a node is the number of edges a node takes part in.</S>
-			<S sid ="31" ssid = "9">The neighborhood of a node v is defined by the set of all nodes v’ such that (v,v’,w)?E or (v’,v,w)?E; it consists of all nodes that are connected to v. The adjacency matrix AG of a graph G with n nodes is an n×n matrix where the entry aij denotes the weight of the edge between vi and vj , 0 otherwise.</S>
-			<S sid ="32" ssid = "10">The class matrix DG of a Graph G with n nodes is an n×n matrix where rows represent nodes and columns represent classes (ci)?C. The value dij at row i and column j represents the amount of vi as belonging to a class cj.</S>
+			<S sid ="31" ssid = "9">The neighborhood of a node v is defined by the set of all nodes v such that (v,v,w)?E or (v,v,w)?E; it consists of all nodes that are connected to v. The adjacency matrix AG of a graph G with n nodes is an nn matrix where the entry aij denotes the weight of the edge between vi and vj , 0 otherwise.</S>
+			<S sid ="32" ssid = "10">The class matrix DG of a Graph G with n nodes is an nn matrix where rows represent nodes and columns represent classes (ci)?C. The value dij at row i and column j represents the amount of vi as belonging to a class cj.</S>
 			<S sid ="33" ssid = "11">For convention, class matrices are row-normalized; the i-th row denotes a distribution of vi over C. If all rows have exactly one nonzero entry with value 1, DG denotes a hard partitioning of V, soft partitioning otherwise.</S>
-			<S sid ="34" ssid = "12">2.1 Chinese Whispers algorithm CW is a very basic – yet effective – algorithm to partition the nodes of weighted, undirected graphs.</S>
-			<S sid ="35" ssid = "13">It is motivated by the eponymous children’s game, where children whisper words to each other.</S>
-			<S sid ="36" ssid = "14">While the game’s goal is to arrive at some funny derivative of the original message by passing it through several noisy channels, the CW algorithm aims at finding groups of nodes that broadcast the same message to their neighbors.</S>
+			<S sid ="34" ssid = "12">2.1 Chinese Whispers algorithm CW is a very basic  yet effective  algorithm to partition the nodes of weighted, undirected graphs.</S>
+			<S sid ="35" ssid = "13">It is motivated by the eponymous childrens game, where children whisper words to each other.</S>
+			<S sid ="36" ssid = "14">While the games goal is to arrive at some funny derivative of the original message by passing it through several noisy channels, the CW algorithm aims at finding groups of nodes that broadcast the same message to their neighbors.</S>
 			<S sid ="37" ssid = "15">It can be viewed as a simulation of an agent-based social network; for an overview of this field, see (Amblard 2002).</S>
 			<S sid ="38" ssid = "16">The algorithm is outlined in figure 1: initialize: forall vi in V: class(vi)=i; while changes: forall v in V, randomized order: class(v)=highest ranked class in neighborhood of v; Figure 1: The Chinese Whispers algorithm Intuitively, the algorithm works as follows in a bottom-up fashion: First, all nodes get different classes.</S>
 			<S sid ="39" ssid = "17">Then the nodes are processed for a small number of iterations and inherit the strongest class in the local neighborhood.</S>
@@ -53,7 +53,7 @@
 			<S sid ="47" ssid = "25">This showed having positive effects for small graphs because of slower convergence in early iterations.</S>
 			<S sid ="48" ssid = "26">The CW algorithm cannot cross component boundaries, because there are no edges between nodes belonging to different components.</S>
 			<S sid ="49" ssid = "27">Further, nodes that are not connected by any edge are discarded from the clustering process, which possibly leaves a portion of nodes unclustered.</S>
-			<S sid ="50" ssid = "28">Formally, CW does not converge, as figure 3 exemplifies: here, the middle node’s neighborhood 0.</S>
+			<S sid ="50" ssid = "28">Formally, CW does not converge, as figure 3 exemplifies: here, the middle nodes neighborhood 0.</S>
 			<S sid ="51" ssid = "29">1. 2.</S>
 			<S sid ="52" ssid = "30">74 consists of a tie which can be decided in assigning the class of the left or the class of the right nodes in any iteration all over again.</S>
 			<S sid ="53" ssid = "31">Ties, however, do not play a major role in weighted graphs.</S>
@@ -61,7 +61,7 @@
 			<S sid ="55" ssid = "33">Small numbers denote edge weights.</S>
 			<S sid ="56" ssid = "34">Apart from ties, the classes usually do not change any more after a handful of iterations.</S>
 			<S sid ="57" ssid = "35">The number of iterations depends on the diameter of the graph: the larger the distance between two nodes is, the more iterations it takes to percolate information from one to another.</S>
-			<S sid ="58" ssid = "36">The result of CW is a hard partitioning of the given graph into a number of partitions that emerges in the process – CW is parameter-free.</S>
+			<S sid ="58" ssid = "36">The result of CW is a hard partitioning of the given graph into a number of partitions that emerges in the process  CW is parameter-free.</S>
 			<S sid ="59" ssid = "37">It is possible to obtain a soft partitioning by assigning a class distribution to each node, based on the weighted distribution of (hard) classes in its neighborhood in a final step.</S>
 			<S sid ="60" ssid = "38">The outcomes of CW resemble those of Min-Cut (Wu &amp; Leahy 1993): Dense regions in the graph are grouped into one cluster while sparsely connected regions are separated.</S>
 			<S sid ="61" ssid = "39">In contrast to Min-Cut, CW does not find an optimal hierarchical clustering but yields a non-hierarchical (flat) partition.</S>
@@ -74,26 +74,26 @@
 			<S sid ="68" ssid = "46">MCL simulates flow on a graph by repeatedly updating transition probabilities between all nodes, eventually converging to a transition matrix after k steps that can be interpreted as a clustering of G. This is achieved by alternating an expansion step and an inflation step.</S>
 			<S sid ="69" ssid = "47">The expansion step is a matrix multiplication of MG with the current transition matrix.</S>
 			<S sid ="70" ssid = "48">The inflation step is a column-wise non-linear operator that increases the contrast between small and large transition probabilities and normalizes the column-wise sums to 1.</S>
-			<S sid ="71" ssid = "49">The k matrix multiplications of the expansion step of MCL lead to its time-complexity of O(k·n²).</S>
-			<S sid ="72" ssid = "50">It has been observed in (van Dongen, 2000), that only the first couple of iterations operate on dense matrices – when using a strong inflation operator, matrices in the later steps tend to be sparse.</S>
+			<S sid ="71" ssid = "49">The k matrix multiplications of the expansion step of MCL lead to its time-complexity of O(kn).</S>
+			<S sid ="72" ssid = "50">It has been observed in (van Dongen, 2000), that only the first couple of iterations operate on dense matrices  when using a strong inflation operator, matrices in the later steps tend to be sparse.</S>
 			<S sid ="73" ssid = "51">The author further discusses pruning schemes that keep only some of the largest entries per column, leading to drastic optimization possibilities.</S>
 			<S sid ="74" ssid = "52">But the most aggressive sort of pruning is not considered: only keeping one single largest entry.</S>
 			<S sid ="75" ssid = "53">Exactly this is conducted in the basic CW process.</S>
 			<S sid ="76" ssid = "54">Let maxrow(.)</S>
 			<S sid ="77" ssid = "55">be an operator that operates row-wise on a matrix and sets all entries of a row to zero except the largest entry, which is set to 1.</S>
 			<S sid ="78" ssid = "56">Then the algorithm is denoted as simple as this: D0 = In for t=1 to iterations Dt1 = maxrow(Dt1) Dt = Dt1AG Figure 4: Matrix Chinese Whispers process.</S>
-			<S sid ="79" ssid = "57">t is time step, In is the identity matrix of size n×n, AG is the adjacency matrix of graph G. By applying maxrow(.), Dt1 has exactly n nonzero entries.</S>
-			<S sid ="80" ssid = "58">This causes the time-complexity to be dependent on the number of edges, namely O(k·|E|).</S>
+			<S sid ="79" ssid = "57">t is time step, In is the identity matrix of size nn, AG is the adjacency matrix of graph G. By applying maxrow(.), Dt1 has exactly n nonzero entries.</S>
+			<S sid ="80" ssid = "58">This causes the time-complexity to be dependent on the number of edges, namely O(k|E|).</S>
 			<S sid ="81" ssid = "59">In the worst case of a fully connected graph, this equals the time-complexity of MCL.</S>
 			<S sid ="82" ssid = "60">A problem with the matrix CW process is that it does not necessarily converge to an iteration-invariant class matrix D, but rather to a pair of oscillating class matrices.</S>
 			<S sid ="83" ssid = "61">Figure 5 shows an example.</S>
 			<S sid ="84" ssid = "62">1 1 1 1 2 2 75 Figure 5: oscillating states in matrix CW for an unweighted graph This is caused by the stepwise update of the class matrix.</S>
 			<S sid ="85" ssid = "63">As opposed to this, the CW algorithm as outlined in figure 1 continuously updates D after the processing of each node.</S>
-			<S sid ="86" ssid = "64">To avoid these oscillations, one of the following measures can be taken: • Random mutation: with some probability, the maxrow-operator places the 1 for an otherwise unused class • Keep class: with some probability, the row is copied from Dt1 to Dt • Continuous update (equivalent to CW as described in section 2.1.) While converging to the same limits, the continuous update strategy converges the fastest because prominent classes are spread much faster in early iterations.</S>
+			<S sid ="86" ssid = "64">To avoid these oscillations, one of the following measures can be taken:  Random mutation: with some probability, the maxrow-operator places the 1 for an otherwise unused class  Keep class: with some probability, the row is copied from Dt1 to Dt  Continuous update (equivalent to CW as described in section 2.1.) While converging to the same limits, the continuous update strategy converges the fastest because prominent classes are spread much faster in early iterations.</S>
 	</SECTION>
 	<SECTION title="Experiments with synthetic graphs. " number = "3">
 			<S sid ="87" ssid = "1">The analysis of the CW process is difficult due to its nonlinear nature.</S>
-			<S sid ="88" ssid = "2">Its run-time complexity indicates that it cannot directly optimize most global graph cluster measures because of their NP-completeness (Šíma and Schaeffer, 2005).</S>
+			<S sid ="88" ssid = "2">Its run-time complexity indicates that it cannot directly optimize most global graph cluster measures because of their NP-completeness (ma and Schaeffer, 2005).</S>
 			<S sid ="89" ssid = "3">Therefore we perform experiments on synthetic graphs to empirically arrive at an impression of our algorithm&apos;s abilities.</S>
 			<S sid ="90" ssid = "4">All experiments were conducted with an implementation following figure 1.</S>
 			<S sid ="91" ssid = "5">For experiments with synthetic graphs, we restrict ourselves to unweighted graphs, if not stated explicitly.</S>
@@ -122,8 +122,8 @@
 			<S sid ="114" ssid = "28">We conducted experiments to measure CW&apos;s performance on SW-graph mixtures: We generated graphs of various sizes, merged them by twos to a various extent and measured the amount of cases where clustering with CW leads to the reconstruction of the original parts.</S>
 			<S sid ="115" ssid = "29">When generating SW-graphs with the SteyversTenenbaum model, we fixed M to 10 and varied n and the merge rate r, which is the fraction of nodes of the smaller graph that is merged with nodes of the larger graph.</S>
 			<S sid ="116" ssid = "30">Figure 8: Rate of obtaining two clusters for mixtures of SW-graphs dependent on merge rate r. Figure 8 summarizes the results for equisized mixtures of 300, 3,000 and 30,000 nodes and mixtures of 300 with 30,000 nodes.</S>
-			<S sid ="117" ssid = "31">It is not surprising that separating the two parts is more difficult for higher r. Results are not very sensitive to size and size ratio, indicating that CW is able to identify clusters even if they differ considerably in size – it even performs best at the skewed mixtures.</S>
-			<S sid ="118" ssid = "32">At merge rates between 20% and 30%, still more then half of the mixtures are separated correctly and can be found when averaging CW’s outcome over several runs.</S>
+			<S sid ="117" ssid = "31">It is not surprising that separating the two parts is more difficult for higher r. Results are not very sensitive to size and size ratio, indicating that CW is able to identify clusters even if they differ considerably in size  it even performs best at the skewed mixtures.</S>
+			<S sid ="118" ssid = "32">At merge rates between 20% and 30%, still more then half of the mixtures are separated correctly and can be found when averaging CWs outcome over several runs.</S>
 			<S sid ="119" ssid = "33">3.3 Speed issues As formally, the algorithm does not converge, it is important to define a stop criterion or to set the number of iterations.</S>
 			<S sid ="120" ssid = "34">To show that only a few iterations are needed until almost-convergence, we measured the normalized Mutual Information (MI)1 between the clustering in the 50th iteration and the clusterings of earlier iterations.</S>
 			<S sid ="121" ssid = "35">This was conducted for two unweighted SW-graphs with 1,000 (1K) and 10,000 (10K) nodes, M=5 and a weighted 7-lingual co-occurrence graph (cf.</S>
@@ -162,7 +162,7 @@
 			<S sid ="152" ssid = "26">This graph is transformed into a second-order graph by comparing the number of common right and left neighbors for two words.</S>
 			<S sid ="153" ssid = "27">The similarity (edge weight) between two words is the sum of common neighbors.</S>
 			<S sid ="154" ssid = "28">Figure 9b depicts the second-order graph derived from figure 9a and its partitioning by CW.</S>
-			<S sid ="155" ssid = "29">The word-class-ambiguous word “drink” (to drink the drink) is responsible for all intra-cluster edges.</S>
+			<S sid ="155" ssid = "29">The word-class-ambiguous word drink (to drink the drink) is responsible for all intra-cluster edges.</S>
 			<S sid ="156" ssid = "30">The hypothesis here is that words sharing many neighbors should usually be observed with the same part-of-speech and get high weights in the second order graph.</S>
 			<S sid ="157" ssid = "31">In figure 9, three clusters are obtained that correspond to different parts-of-speech (POS).</S>
 			<S sid ="158" ssid = "32">(a) (b) Figure 9: Bipartite neighboring co-occurrence graph (a) and second-order graph on neighboring co-occurrences (b) clustered with CW.</S>
@@ -179,7 +179,7 @@
 			<S sid ="169" ssid = "43">1855 NP: 1670 NN: 148 Central, Leeds, Manchester, Australia, Yorkshire, Belfast, Glasgow, Middlesbrough, ...</S>
 			<S sid ="170" ssid = "44">Table 2: the largest clusters from partitioning the second order graph with CW.</S>
 			<S sid ="171" ssid = "45">In total, CW produced 282 clusters, of which 26 exceed a size of 100.</S>
-			<S sid ="172" ssid = "46">The weighted average of cluster purity (i.e. the number of predominant tags divided by cluster size) was measured at 88.8%, which exceeds significantly the precision of 53% on word type as reported by Schütze (1995) on a related task.</S>
+			<S sid ="172" ssid = "46">The weighted average of cluster purity (i.e. the number of predominant tags divided by cluster size) was measured at 88.8%, which exceeds significantly the precision of 53% on word type as reported by Schtze (1995) on a related task.</S>
 			<S sid ="173" ssid = "47">How to use this kind of word clusters to improve the accuracy of POStaggers is outlined in (Ushioda, 1996).</S>
 			<S sid ="174" ssid = "48">4.3 Word Sense Induction The task of word sense induction (WSI) is to find the different senses of a word.</S>
 			<S sid ="175" ssid = "49">The number of senses is not known in advance, therefore has to be determined by the method.</S>
@@ -190,8 +190,8 @@
 			<S sid ="180" ssid = "54">The clusters are interpreted as representations of word senses.</S>
 			<S sid ="181" ssid = "55">To judge results, the methodology of (Bordag, 2006) is adopted: To evaluate word sense induction, two sub-graphs induced by the neighborhood of different words are merged.</S>
 			<S sid ="182" ssid = "56">The algorithm&apos;s ability to separate the merged graph into its previous parts can be measured in an unsupervised way.</S>
-			<S sid ="183" ssid = "57">Bordag defines four measures: • retrieval precision (rP): similarity of the found sense with the gold standard sense • retrieval recall (rR): amount of words that have been correctly assigned to the gold standard sense • precision (P): fraction of correctly found disambiguations • recall (R): fraction of correctly found senses We used the same program to compute co-occurrences on the same corpus (the BNC).</S>
-			<S sid ="184" ssid = "58">Therefore it is possible to directly compare our results to Bordag’s, who uses a triplet-based hierarchical graph clustering approach.</S>
+			<S sid ="183" ssid = "57">Bordag defines four measures:  retrieval precision (rP): similarity of the found sense with the gold standard sense  retrieval recall (rR): amount of words that have been correctly assigned to the gold standard sense  precision (P): fraction of correctly found disambiguations  recall (R): fraction of correctly found senses We used the same program to compute co-occurrences on the same corpus (the BNC).</S>
+			<S sid ="184" ssid = "58">Therefore it is possible to directly compare our results to Bordags, who uses a triplet-based hierarchical graph clustering approach.</S>
 			<S sid ="185" ssid = "59">The method was chosen because of its appropriateness for unlabelled data: without linguistic pre-processing like tagging or parsing, only the disambiguation mechanism is measured and not the quality of the preprocessing steps.</S>
 			<S sid ="186" ssid = "60">We provide scores for his test 1 (word classes separately) and test 3 (words of different frequency bands).</S>
 			<S sid ="187" ssid = "61">Data was obtained from BNC&apos;s raw text; evaluation was performed for 45 test words.</S>
@@ -203,9 +203,9 @@
 			<S sid ="191" ssid = "1">Chinese Whispers, an efficient graph-clustering algorithm was presented and described in theory and practice.</S>
 			<S sid ="192" ssid = "2">Experiments with synthetic graphs showed that for small graphs, results can be inconclusive due to its non-deterministic nature.</S>
 			<S sid ="193" ssid = "3">But while there exist plethora of clustering approaches that can deal well with small graphs, the power of CW lies in its capability of handling very large graphs in reasonable time.</S>
-			<S sid ="194" ssid = "4">The 79 application field of CW rather lies in size regions, where other approaches’ solutions are intractable.</S>
+			<S sid ="194" ssid = "4">The 79 application field of CW rather lies in size regions, where other approaches solutions are intractable.</S>
 			<S sid ="195" ssid = "5">On the NLP data discussed, CW performs equally or better than other clustering algorithms.</S>
-			<S sid ="196" ssid = "6">As CW – like other graph clustering algorithms – chooses the number of classes on its own and can handle clusters of different sizes, it is especially suited for NLP problems, where class distributions are often highly skewed and the number of classes (e.g. in WSI) is not known beforehand.</S>
+			<S sid ="196" ssid = "6">As CW  like other graph clustering algorithms  chooses the number of classes on its own and can handle clusters of different sizes, it is especially suited for NLP problems, where class distributions are often highly skewed and the number of classes (e.g. in WSI) is not known beforehand.</S>
 			<S sid ="197" ssid = "7">To relate the partitions, it is possible to set up a hierarchical version of CW in the following way: The nodes of equal class are joined to hyper-nodes.</S>
 			<S sid ="198" ssid = "8">Edge weights between hyper-nodes are set according to the number of inter-class edges between the corresponding nodes.</S>
 			<S sid ="199" ssid = "9">This results in flat hierarchies.</S>

@@ -11,16 +11,16 @@
 		<S sid ="9" ssid = "9">This is exemplified and evaluated on language separation and unsupervised part-of-speech tagging, further applications are discussed.</S>
 	</ABSTRACT>
 	<SECTION title="Introduction" number = "1">
-			<S sid ="10" ssid = "10">1.1 Unsupervised and Knowledge-Free A frequent remark on work dealing with unsupervised methods in NLP is the question: “Why not.</S>
-			<S sid ="11" ssid = "11">take linguistic knowledge into account?” While for English, annotated corpora, classification examples, sets of rules and lexical semantic word nets of high coverage do exist, this does not reflect the situation for most of even the major world languages.</S>
+			<S sid ="10" ssid = "10">1.1 Unsupervised and Knowledge-Free A frequent remark on work dealing with unsupervised methods in NLP is the question: Why not.</S>
+			<S sid ="11" ssid = "11">take linguistic knowledge into account? While for English, annotated corpora, classification examples, sets of rules and lexical semantic word nets of high coverage do exist, this does not reflect the situation for most of even the major world languages.</S>
 			<S sid ="12" ssid = "12">Further, as e.g. Lin (1997) notes, handmade and generic resources often do not fit the application domain, whereas resources created from and for the target data will not suffer from these discrepancies.</S>
 			<S sid ="13" ssid = "13">Shifting the workload from creating resources manually to developing generic methods, a one-size-fits-all solution needing only minimal adaptation to new domains and other languages comes into reach.</S>
 			<S sid ="14" ssid = "14">1.2 Graph Models The interest in incorporating graph models into NLP arose quite recently, and there is still a high potential exploiting this combination (cf.</S>
 			<S sid ="15" ssid = "15">Widdows, 2005).</S>
-			<S sid ="16" ssid = "16">An important parallelism between human language and network models is the small world structure of lexical networks both built manually and automatically (Steyvers and Tenenbaum, 2005), providing explanation for power-law distributions like Zipf’s law and others, see Biemann (2007).</S>
+			<S sid ="16" ssid = "16">An important parallelism between human language and network models is the small world structure of lexical networks both built manually and automatically (Steyvers and Tenenbaum, 2005), providing explanation for power-law distributions like Zipfs law and others, see Biemann (2007).</S>
 			<S sid ="17" ssid = "17">For many problems in NLP, a graph representation is an intuitive, natural and direct way to represent the data..</S>
 			<S sid ="18" ssid = "18">The pure vector space model (cf.</S>
-			<S sid ="19" ssid = "19">Schütze, 1993) is not suited to highly skewed distributions omnipresent in natural language.</S>
+			<S sid ="19" ssid = "19">Schtze, 1993) is not suited to highly skewed distributions omnipresent in natural language.</S>
 			<S sid ="20" ssid = "20">Computationally expensive, sometimes lossy transformations have to be applied for effectiveness and efficiency in processing.</S>
 			<S sid ="21" ssid = "21">Graph models are a veritable alternative, as the equivalent of zero-entries in the vector representation are neither represented nor have to 37 be processed, rendering dimensionality reduction techniques unnecessary while still retaining the exact information.</S>
 			<S sid ="22" ssid = "22">1.3 Roadmap For the entirety of this research, nothing more is required as input data than plain, tokenized text, separated into sentences.</S>
@@ -39,12 +39,12 @@
 			<S sid ="33" ssid = "7">The entirety of all co-occurrences of a corpus is called its co-occurrence graph.</S>
 			<S sid ="34" ssid = "8">Edges are weighted by co-occurrence significance; often a threshold on edge weight is applied.</S>
 			<S sid ="35" ssid = "9">2.2 Graph Clustering For clustering graphs, a plethora of algorithms exist that are motivated from a graph-theoretic viewpoint, but often optimize NP-complete measures (cf.</S>
-			<S sid ="36" ssid = "10">Šíma and Schaeffer, 2005), making them non-applicable to lexical data that is naturally represented in graphs with millions of vertices.</S>
+			<S sid ="36" ssid = "10">ma and Schaeffer, 2005), making them non-applicable to lexical data that is naturally represented in graphs with millions of vertices.</S>
 			<S sid ="37" ssid = "11">In Biemann and Teresniak (2005) and more detailed in Biemann (2006a), the Chinese Whispers (CW) Graph Clustering algorithm is described, which is a randomized algorithm with edge-linear run-time.</S>
 			<S sid ="38" ssid = "12">The core idea is that vertices retain class labels which are inherited along the edges: In an update step, a vertex gets assigned the predominant label in its neighborhood.</S>
-			<S sid ="39" ssid = "13">For initialization, all vertices get different labels, and after a handful of update steps per vertex, almost no changes in the labeling are observed – especially small world graphs converge fast.</S>
+			<S sid ="39" ssid = "13">For initialization, all vertices get different labels, and after a handful of update steps per vertex, almost no changes in the labeling are observed  especially small world graphs converge fast.</S>
 			<S sid ="40" ssid = "14">CW can be viewed as a more efficient modification and simplification of Markov Chain Clustering (van Dongen, 2000), which requires full matrix multiplications..</S>
-			<S sid ="41" ssid = "15">CW is parameter-free, non-deterministic and finds the number of clusters automatically – a feature that is welcome in NLP, where the number of desired clusters (e.g. in word sense induction) is often unknown.</S>
+			<S sid ="41" ssid = "15">CW is parameter-free, non-deterministic and finds the number of clusters automatically  a feature that is welcome in NLP, where the number of desired clusters (e.g. in word sense induction) is often unknown.</S>
 	</SECTION>
 	<SECTION title="Results. " number = "3">
 			<S sid ="42" ssid = "1">3.1 Language Separation Clustering the sentence-based co-occurrence graph of a multilingual corpus with CW, a language separator with almost perfect performance is implemented in the following way: The clusters represent languages; a sentence gets assigned the label of the cluster with the highest lexical overlap between sentence and cluster.</S>
@@ -68,12 +68,12 @@
 			<S sid ="60" ssid = "19">The tagsets obtained with this method are usually more fine-grained than standard tagsets and reflect syntactic as well as semantic similarity.</S>
 			<S sid ="61" ssid = "20">Figure 2 demonstrates the domain-dependence on the tagset for MEDLINE: distinguishing e.g. illnesses and error probabilities already in the tagset might be a valuable feature for relation extraction tasks.</S>
 			<S sid ="62" ssid = "21">Size Sample words 1613 colds, apnea, aspergilloma, ACS, breathlessness, lesions, perforations, ...</S>
-			<S sid ="63" ssid = "22">1383 proven, supplied, engineered, distin guished, constrained, omitted, … 589 dually, circumferentially, chronically, rarely, spectrally, satisfactorily, ...</S>
-			<S sid ="64" ssid = "23">124 1min, two-week, 4min, 2-day, … 6 P&lt;0.001, P&lt;0.01, p&lt;0.001, p&lt;0.01, ...</S>
+			<S sid ="63" ssid = "22">1383 proven, supplied, engineered, distin guished, constrained, omitted,  589 dually, circumferentially, chronically, rarely, spectrally, satisfactorily, ...</S>
+			<S sid ="64" ssid = "23">124 1min, two-week, 4min, 2-day,  6 P&lt;0.001, P&lt;0.01, p&lt;0.001, p&lt;0.01, ...</S>
 			<S sid ="65" ssid = "24">Figure 2: Some examples for MEDLINE tagset: Number of lex.</S>
 			<S sid ="66" ssid = "25">entries per tag and sample words.</S>
 			<S sid ="67" ssid = "26">In Biemann (2006b), the tagger output was directly compared to supervised taggers for English, German and Finnish via information-theoretic measures.</S>
-			<S sid ="68" ssid = "27">While it is possible to compare the contribution of different components of a system relatively along this scale, it only gives a poor impression on the utility of the unsupervised tag-ger’s output.</S>
+			<S sid ="68" ssid = "27">While it is possible to compare the contribution of different components of a system relatively along this scale, it only gives a poor impression on the utility of the unsupervised tag-gers output.</S>
 			<S sid ="69" ssid = "28">Therefore, the tagger was evaluated indirectly in machine learning tasks, where POS tags are used as features.</S>
 			<S sid ="70" ssid = "29">Biemann et al.</S>
 			<S sid ="71" ssid = "30">(2007) report that for standard Named Entity Recognition, Word Sense Disambiguation and Chunking tasks, using unsupervised POS tags as features helps about as much as supervised tagging: Overall, almost no significant differences between results could be observed, supporting the initial claim.</S>
@@ -93,7 +93,7 @@
 			<S sid ="83" ssid = "8">Davidov and Rappoport 2006).</S>
 			<S sid ="84" ssid = "9">For class-based generalization in these patterns, the system described in section 3.2 might prove useful.</S>
 			<S sid ="85" ssid = "10">Preliminary experiments revealed that similarity on significantly co-occurring patterns is able to produce very promising similarity rankings.</S>
-			<S sid ="86" ssid = "11">A clustering of these with CW leads to thesaurus entries comparable to thesauri like Roget’s..</S>
+			<S sid ="86" ssid = "11">A clustering of these with CW leads to thesaurus entries comparable to thesauri like Rogets..</S>
 			<S sid ="87" ssid = "12">Clustering not only words based on similarity of patterns, but also patterns based on similarity of words enables us to identify clusters of patterns with different relations they manifest.</S>
 	</SECTION>
 	<SECTION title="Conclusion. " number = "5">

@@ -11,7 +11,7 @@
 			<S sid ="7" ssid = "7">The number of documents discussing biomedicalscience is growing at an ever increasing rate, makingit difficult to keep track of recent developments.</S>
 			<S sid ="8" ssid = "8">Automated methods for cataloging, searching and navigating these documents would be of great benefitto researchers working in this area, as well as having potential benefits to medicine and other branchesof science.</S>
 			<S sid ="9" ssid = "9">Lexical ambiguity, the linguistic phenomena where a word or phrase has more thanone potential meaning, makes the automatic processing of text difficult.</S>
-			<S sid ="10" ssid = "10">For example, “cold” hassix possible meanings in the Unified Medical Language System (UMLS) Metathesaurus (Humphreys et al., 1998) including “common cold”, “cold sensation” and “Chronic Obstructive Airway Disease(COLD)”.</S>
+			<S sid ="10" ssid = "10">For example, cold hassix possible meanings in the Unified Medical Language System (UMLS) Metathesaurus (Humphreys et al., 1998) including common cold, cold sensation and Chronic Obstructive Airway Disease(COLD).</S>
 			<S sid ="11" ssid = "11">The NLM Indexing Initiative (Aronson etal., 2000) attempted to automatically index biomedical journals with concepts from the UMLS Metathesaurus and concluded that lexical ambiguity was thebiggest challenge in the automation of the indexingprocess.</S>
 			<S sid ="12" ssid = "12">Weeber et al.</S>
 			<S sid ="13" ssid = "13">(2001) analysed MEDLINEabstracts and found that 11.7% of phrases were ambiguous relative to the UMLS Metathesaurus.</S>
@@ -33,9 +33,9 @@
 			<S sid ="27" ssid = "5">The UMLS Metathesaurus was used to provide a set of possible meanings for terms in biomedical text.</S>
 			<S sid ="28" ssid = "6">50 ambiguousterms which occur frequently in MEDLINE werechosen for inclusion in the test set.</S>
 			<S sid ="29" ssid = "7">100 instancesof each term were selected from citations added tothe MEDLINE database in 1998 and manually dis-ambiguated by 11 annotators.</S>
-			<S sid ="30" ssid = "8">Twelve terms wereflagged as “problematic” due to substantial disagreement between the annotators.</S>
-			<S sid ="31" ssid = "9">There are an averageof 2.64 possible meanings per ambiguous term andthe most ambiguous term, “cold” has five possiblemeanings.</S>
-			<S sid ="32" ssid = "10">In addition to the meanings defined inUMLS, annotators had the option of assigning a special tag (“none”) when none of the UMLS meaningsseemed appropriate.</S>
+			<S sid ="30" ssid = "8">Twelve terms wereflagged as problematic due to substantial disagreement between the annotators.</S>
+			<S sid ="31" ssid = "9">There are an averageof 2.64 possible meanings per ambiguous term andthe most ambiguous term, cold has five possiblemeanings.</S>
+			<S sid ="32" ssid = "10">In addition to the meanings defined inUMLS, annotators had the option of assigning a special tag (none) when none of the UMLS meaningsseemed appropriate.</S>
 			<S sid ="33" ssid = "11">Various researchers have chosen to evaluate theirsystems against subsets of this data set.</S>
 			<S sid ="34" ssid = "12">Liu et al.(2004) excluded the 12 terms identified as problematic by Weeber et al.</S>
 			<S sid ="35" ssid = "13">(2001) in addition to 16 forwhich the majority (most frequent) sense accountedfor more than 90% of the instances, leaving 22 termsagainst which their system was evaluated.</S>
@@ -43,7 +43,7 @@
 			<S sid ="37" ssid = "15">Joshi et al.</S>
 			<S sid ="38" ssid = "16">(2005) evaluated against 1http://www.senseval.org the set union of those two sets, providing 28 ambiguous terms.</S>
 			<S sid ="39" ssid = "17">McInnes et al.</S>
-			<S sid ="40" ssid = "18">(2007) used the setintersection of the two sets (dubbed the “commonsubset”) which contained 9 terms.</S>
+			<S sid ="40" ssid = "18">(2007) used the setintersection of the two sets (dubbed the commonsubset) which contained 9 terms.</S>
 			<S sid ="41" ssid = "19">The terms whichform these various subsets are shown in Figure 1.</S>
 			<S sid ="42" ssid = "20">The 50 terms which form the NLMWSD data setrepresent a range of challenges for WSD systems.The Most Frequent Sense (MFS) heuristic has become a standard baseline in WSD (McCarthy et al.,2004) and is simply the accuracy which would beobtained by assigning the most common meaning ofa term to all of its instances in a corpus.</S>
 			<S sid ="43" ssid = "21">Despite itssimplicity, the MFS heuristic is a hard baseline tobeat, particularly for unsupervised systems, becauseit uses hand-tagged data to determine which senseis the most frequent.</S>
@@ -54,7 +54,7 @@
 			<S sid ="48" ssid = "26">adjustmentblood pressureevaluationimmunosuppressionradiationsensitivity degreegrowthmanmosaicnutrition colddepressiondischargeextractionfatimplantation associationconditionculturedeterminationenergy failurefitfluidfrequencyganglion glucoseinhibition pressure resistancesecretion singlestrainssupportsurgerytransient transportvariation repairscaleweightwhite japaneseleadmolepathologyreductionsexultrasound NLMWSD data set Liu et.</S>
 			<S sid ="49" ssid = "27">al.</S>
 			<S sid ="50" ssid = "28">(2004) Leroy and Rindflesch (2005) Figure 1: The NLMWSD test set and some of its subsets.</S>
-			<S sid ="51" ssid = "29">Note that the test set used by (Joshi et al., 2005)comprises the set union of the terms used by (Liu et al.,2004) and (Leroy and Rindflesch, 2005) while the “common subset” is formed from their intersection.</S>
+			<S sid ="51" ssid = "29">Note that the test set used by (Joshi et al., 2005)comprises the set union of the terms used by (Liu et al.,2004) and (Leroy and Rindflesch, 2005) while the common subset is formed from their intersection.</S>
 			<S sid ="52" ssid = "30">2.2 WSD of Biomedical Text.</S>
 			<S sid ="53" ssid = "31">A standard approach to WSD is to make use ofsupervised machine learning systems which aretrained on examples of ambiguous words in context along with the correct sense for that usage.</S>
 			<S sid ="54" ssid = "32">The 81 models created are then applied to new examples ofthat word to determine the sense being used.</S>
@@ -68,20 +68,20 @@
 			<S sid ="62" ssid = "40">The Support Vector Machine performed scoring 82.5% ona set of 28 words (see Section 2.1) and 84.9% onthe 22 terms used by Liu et al.</S>
 			<S sid ="63" ssid = "41">(2004).</S>
 			<S sid ="64" ssid = "42">Performanceof the Naive Bayes classifier was comparable to theSupport Vector Machine, while the other algorithmswere hampered by the large number of features.Examples of approaches which have made use ofknowledge sources specific to the biomedical domain include Leroy and Rindflesch (2005), who relied on information from the UMLS Metathesaurusassigned by MetaMap (Aronson, 2001).</S>
-			<S sid ="65" ssid = "43">Their system used information about whether the ambiguous word is the head word of a phrase identified byMetaMap, the ambiguous word’s part of speech, semantic relations between the ambiguous words andsurrounding words from UMLS as well as semantictypes of the ambiguous word and surrounding word.Naive Bayes was used as a learning algorithm.</S>
+			<S sid ="65" ssid = "43">Their system used information about whether the ambiguous word is the head word of a phrase identified byMetaMap, the ambiguous words part of speech, semantic relations between the ambiguous words andsurrounding words from UMLS as well as semantictypes of the ambiguous word and surrounding word.Naive Bayes was used as a learning algorithm.</S>
 			<S sid ="66" ssid = "44">Thisapproach correctly disambiguated 65.6% of word instances from a set of 15 terms (see Section 2.1).Humphrey et al.</S>
 			<S sid ="67" ssid = "45">(2006) presented an unsupervisedsystem that also used semantic types.</S>
 			<S sid ="68" ssid = "46">They constructed semantic type vectors for each word froma large collection of MEDLINE abstracts.</S>
 			<S sid ="69" ssid = "47">This allowed their method to perform disambiguation at acoarser level, without the need for labeled trainingexamples.</S>
 			<S sid ="70" ssid = "48">In most cases the semantic types can bemapped to the UMLS concepts but not for five of theterms in the NLMWSD data set.</S>
 			<S sid ="71" ssid = "49">Humphrey et al.(2006) reported 78.6% accuracy over the remaining45.</S>
-			<S sid ="72" ssid = "50">However, their approach could not be appliedto all instances of ambiguous terms and, in particu lar, is unable to model the “none” tag.</S>
+			<S sid ="72" ssid = "50">However, their approach could not be appliedto all instances of ambiguous terms and, in particu lar, is unable to model the none tag.</S>
 			<S sid ="73" ssid = "51">Their systemcould only assign senses to an average of 54% of theinstances of each ambiguous term.</S>
 			<S sid ="74" ssid = "52">McInnes et al.</S>
 			<S sid ="75" ssid = "53">(2007) made use of ConceptUnique Identifiers (CUIs) from UMLS which arealso assigned by MetaMap.</S>
 			<S sid ="76" ssid = "54">The information contained in CUIs is more specific than in the semantictypes applied by Leroy and Rindflesch (2005).</S>
-			<S sid ="77" ssid = "55">Forexample, there are two CUIs for the term “culture”in UMLS: “C0010453: Anthropological Culture”and “C0430400: Laboratory Culture”.</S>
-			<S sid ="78" ssid = "56">The semantic type for the first of these is “Idea or Concept” and“Laboratory Procedure” for the second.</S>
+			<S sid ="77" ssid = "55">Forexample, there are two CUIs for the term culturein UMLS: C0010453: Anthropological Cultureand C0430400: Laboratory Culture.</S>
+			<S sid ="78" ssid = "56">The semantic type for the first of these is Idea or Concept andLaboratory Procedure for the second.</S>
 			<S sid ="79" ssid = "57">McInnes etal.</S>
 			<S sid ="80" ssid = "58">(2007) were interested in exploring whether themore specific information contained in CUIs wasmore effective than UMLS semantic types.</S>
 			<S sid ="81" ssid = "59">Theirbest result was reported for a system which represented each sense by all CUIs which occurred atleast twice in the abstract surrounding the ambiguous word.</S>
@@ -93,31 +93,31 @@
 	</SECTION>
 	<SECTION title="Approach. " number = "3">
 			<S sid ="87" ssid = "1">Our approach is to adapt a state-of-the-art WSD system to the biomedical domain by augmenting it withadditional domain-specific and domain-independentknowledge sources.</S>
-			<S sid ="88" ssid = "2">Our basic system (Agirre andMarti´nez, 2004) participated in the Senseval3 challenge (Mihalcea et al., 2004) with a performanceclose to the best system for the English and Basquelexical sample tasks.</S>
+			<S sid ="88" ssid = "2">Our basic system (Agirre andMartinez, 2004) participated in the Senseval3 challenge (Mihalcea et al., 2004) with a performanceclose to the best system for the English and Basquelexical sample tasks.</S>
 			<S sid ="89" ssid = "3">The system is based on a supervised learning approach.</S>
-			<S sid ="90" ssid = "4">The features used byAgirre and Marti´nez (2004) are derived from textaround the ambiguous word and are domain independent.</S>
+			<S sid ="90" ssid = "4">The features used byAgirre and Martinez (2004) are derived from textaround the ambiguous word and are domain independent.</S>
 			<S sid ="91" ssid = "5">We refer to these as linguistic features.This feature set has been adapted for the disambiguation of biomedical text by adding further linguistic features and two different types of domain-specific features: CUIs (as used by (McInnes et al.,2007)) and Medical Subject Heading (MeSH) terms.</S>
 			<S sid ="92" ssid = "6">82 3.1 FeaturesOur feature set contains a number of parameterswhich were set empirically (e.g. threshold for unigram frequency in the linguistic features).</S>
 			<S sid ="93" ssid = "7">In addition, we use the entire abstract as the context of theambiguous term for relevant features rather than justthe sentence containing the term.</S>
 			<S sid ="94" ssid = "8">Effects of varyingthese parameters are consistent with previous results(Liu et al., 2004; Joshi et al., 2005; McInnes et al.,2007) and are not reported in this paper..</S>
 			<S sid ="95" ssid = "9">Linguistic features: The system uses a widerange of domain-independent features which arecommonly used for WSD.</S>
-			<S sid ="96" ssid = "10">• Local collocations: A total of 41 features whichextensively describe the context of the ambiguous word and fall into two main types:(1) bigrams and trigrams containing the ambiguous word constructed from lemmas, wordforms or PoS tags2 and (2) preceding/followinglemma/word-form of the content words (adjective, adverb, noun and verb) in the same sentence with the target word.</S>
+			<S sid ="96" ssid = "10"> Local collocations: A total of 41 features whichextensively describe the context of the ambiguous word and fall into two main types:(1) bigrams and trigrams containing the ambiguous word constructed from lemmas, wordforms or PoS tags2 and (2) preceding/followinglemma/word-form of the content words (adjective, adverb, noun and verb) in the same sentence with the target word.</S>
 			<S sid ="97" ssid = "11">For example, consider the sentence below with the target wordadjustment.</S>
-			<S sid ="98" ssid = "12">“Body surface area adjustments ofinitial heparin dosing...” The features would include the following: left-content-word-lemma “area adjustment”, right-function-word-lemma “adjustment of ”, left-POS “NN NNS”, right-POS “NNS IN”, left-content-word-form “area adjustments”, right-function-word-form “adjustment of ”, etc. • Syntactic Dependencies: These features modellonger-distance dependencies of the ambiguous words than can be represented by the local collocations.</S>
+			<S sid ="98" ssid = "12">Body surface area adjustments ofinitial heparin dosing... The features would include the following: left-content-word-lemma area adjustment, right-function-word-lemma adjustment of , left-POS NN NNS, right-POS NNS IN, left-content-word-form area adjustments, right-function-word-form adjustment of , etc.  Syntactic Dependencies: These features modellonger-distance dependencies of the ambiguous words than can be represented by the local collocations.</S>
 			<S sid ="99" ssid = "13">Five relations are extracted:object, subject, noun-modifier, preposition andsibling.</S>
 			<S sid ="100" ssid = "14">These are identified using heuristic patterns and regular expressions applied to PoS tagsequences around the ambiguous word.</S>
-			<S sid ="101" ssid = "15">In theabove example, “heparin” is noun-modifier feature of “adjustment”.</S>
+			<S sid ="101" ssid = "15">In theabove example, heparin is noun-modifier feature of adjustment.</S>
 			<S sid ="102" ssid = "16">2A maximum-entropy-based part of speech tagger was used(Ratnaparkhi, 1996) without the adaptation to the biomedicaldomain.</S>
-			<S sid ="103" ssid = "17">• Salient bigrams: Salient bigrams within the abstract with high log-likelihood scores, as described by Pedersen (2001).</S>
-			<S sid ="104" ssid = "18">• Unigrams: Lemmas of unigrams which appearmore frequently than a predefined threshold inthe entire corpus, excluding those in a list ofstopwords.</S>
+			<S sid ="103" ssid = "17"> Salient bigrams: Salient bigrams within the abstract with high log-likelihood scores, as described by Pedersen (2001).</S>
+			<S sid ="104" ssid = "18"> Unigrams: Lemmas of unigrams which appearmore frequently than a predefined threshold inthe entire corpus, excluding those in a list ofstopwords.</S>
 			<S sid ="105" ssid = "19">We empirically set the thresholdto 1.</S>
-			<S sid ="106" ssid = "20">This feature was not used by Agirre andMarti´nez (2004), but Joshi et al.</S>
+			<S sid ="106" ssid = "20">This feature was not used by Agirre andMartinez (2004), but Joshi et al.</S>
 			<S sid ="107" ssid = "21">(2005) foundthem to be useful for this task.</S>
 			<S sid ="108" ssid = "22">Concept Unique Identifiers (CUIs): We followthe approach presented by McInnes et al.</S>
 			<S sid ="109" ssid = "23">(2007) togenerate features based on UMLS Concept UniqueIdentifiers (CUIs).</S>
 			<S sid ="110" ssid = "24">The MetaMap program (Aron-son, 2001) identifies all words and terms in atext which could be mapped onto a UMLS CUI.MetaMap does not disambiguate the senses of theconcepts, instead it enumerates all the possible combinations of the concept names found.</S>
-			<S sid ="111" ssid = "25">For example, MetaMap will segment the phrase “Body surface area adjustments of initial heparin dosing ...”into two chunks: “Body surface area adjustments”and “of initial heparin dosing”.</S>
-			<S sid ="112" ssid = "26">The first chunkwill be mapped onto four CUIs with the conceptname “Body Surface Area”: “C0005902: Diagnostic Procedure” and “C1261466: Organism Attribute” and a further pair with the name “Adjustments”: “C0456081: Health Care Activity” and“C0871291: Individual Adjustment”.</S>
+			<S sid ="111" ssid = "25">For example, MetaMap will segment the phrase Body surface area adjustments of initial heparin dosing ...into two chunks: Body surface area adjustmentsand of initial heparin dosing.</S>
+			<S sid ="112" ssid = "26">The first chunkwill be mapped onto four CUIs with the conceptname Body Surface Area: C0005902: Diagnostic Procedure and C1261466: Organism Attribute and a further pair with the name Adjustments: C0456081: Health Care Activity andC0871291: Individual Adjustment.</S>
 			<S sid ="113" ssid = "27">The final results from MetaMap for the first chunk will be eightcombinations of those concept names, e.g. first fourby second two concept names.</S>
 			<S sid ="114" ssid = "28">CUIs which occurmore than three times in the abstract containing theambiguous word are included as features.</S>
 			<S sid ="115" ssid = "29">Medical Subject Headings (MeSH): The final feature is also specific to the biomedical domain.</S>
@@ -125,11 +125,11 @@
 			<S sid ="117" ssid = "31">MeSH terms are manually assigned toabstracts by human indexers.</S>
 			<S sid ="118" ssid = "32">The latest version ofMeSH contains over 24,000 terms organised into an11 level hierarchy.</S>
 			<S sid ="119" ssid = "33">The terms assigned to the abstract in whicheach ambiguous word occurs are used as features.</S>
-			<S sid ="120" ssid = "34">For example, the abstract containing ourexample phrase has been assigned 16 MeSH 83 terms including “M01.060.116.100: Aged”,“M01.060.116.100.080: Aged, 80 and over”,“D27.505.954.502.119: Anticoagulants” and“G09.188.261.560.150: Blood Coagulation”.</S>
+			<S sid ="120" ssid = "34">For example, the abstract containing ourexample phrase has been assigned 16 MeSH 83 terms including M01.060.116.100: Aged,M01.060.116.100.080: Aged, 80 and over,D27.505.954.502.119: Anticoagulants andG09.188.261.560.150: Blood Coagulation.</S>
 			<S sid ="121" ssid = "35">Toour knowledge MeSH terms have not been previously used as a feature for WSD of biomedicaldocuments.</S>
 			<S sid ="122" ssid = "36">3.2 Learning Algorithms.</S>
 			<S sid ="123" ssid = "37">We compared three machine leaning algorithmswhich have previously been shown to be effectivefor WSD tasks.</S>
-			<S sid ="124" ssid = "38">The Vector Space Model is a memory-basedlearning algorithm which was used by (Agirre andMarti´nez, 2004).</S>
+			<S sid ="124" ssid = "38">The Vector Space Model is a memory-basedlearning algorithm which was used by (Agirre andMartinez, 2004).</S>
 			<S sid ="125" ssid = "39">Each occurrence of an ambiguousword is represented as a binary vector in which eachposition indicates the occurrence/absence of a feature.</S>
 			<S sid ="126" ssid = "40">A single centroid vector is generated for eachsense during training.</S>
 			<S sid ="127" ssid = "41">These centroids are comparedwith the vectors that represent new examples usingthe cosine metric to compute similarity.</S>
@@ -163,11 +163,11 @@
 			<S sid ="153" ssid = "20">McInnes et.</S>
 			<S sid ="154" ssid = "21">baseline (2004) Rindflesch (2005) al.</S>
 			<S sid ="155" ssid = "22">(2005) al.</S>
-			<S sid ="156" ssid = "23">(2007)All words 78.0 – – – 85.3 Joshi subset 66.9 – – 82.5 80.0Leroy subset 55.3 – 65.5 77.4 74.5 Liu subset 69.9 78.0 – 84.9 82.0Common subset 54.9 – 68.8 79.8 75.7 Table 1: Results from WSD system applied to various sections of the NLMWSD data set using a variety of features and machine learning algorithms.</S>
+			<S sid ="156" ssid = "23">(2007)All words 78.0    85.3 Joshi subset 66.9   82.5 80.0Leroy subset 55.3  65.5 77.4 74.5 Liu subset 69.9 78.0  84.9 82.0Common subset 54.9  68.8 79.8 75.7 Table 1: Results from WSD system applied to various sections of the NLMWSD data set using a variety of features and machine learning algorithms.</S>
 			<S sid ="157" ssid = "24">Results from baseline and previously published approaches are included forcomparison.</S>
-			<S sid ="158" ssid = "25">of which set of features are used, and it is consistent of the results in Senseval data from (Agirre andMarti´nez, 2004).</S>
+			<S sid ="158" ssid = "25">of which set of features are used, and it is consistent of the results in Senseval data from (Agirre andMartinez, 2004).</S>
 			<S sid ="159" ssid = "26">4.1 Per-Word Analysis.</S>
-			<S sid ="160" ssid = "27">Table 2 shows the results of our best performing system (combination of linguistic and MeSH featuresusing the Vector Space Model learning algorithm).Comparable results for previous supervised systemsare also reported where available.3 The MFS baseline for each term is shown in the leftmost column.The performance of Leroy and Rindflesch’s sys 3It is not possible to directly compare our results with Liuet al.</S>
+			<S sid ="160" ssid = "27">Table 2 shows the results of our best performing system (combination of linguistic and MeSH featuresusing the Vector Space Model learning algorithm).Comparable results for previous supervised systemsare also reported where available.3 The MFS baseline for each term is shown in the leftmost column.The performance of Leroy and Rindfleschs sys 3It is not possible to directly compare our results with Liuet al.</S>
 			<S sid ="161" ssid = "28">(2004) or Humphrey et al.</S>
 			<S sid ="162" ssid = "29">(2006).</S>
 			<S sid ="163" ssid = "30">The first report onlyoptimal configuration for each term (combination of feature setsand learning algorithm) while the second do not assign sensesto all of the instances of each ambiguous term (see Section 2).</S>
@@ -178,14 +178,14 @@
 			<S sid ="168" ssid = "35">The system reported here achieves results equal to or better than previously reported systems for 33 terms.</S>
 			<S sid ="169" ssid = "36">There are seven terms for which the performanceof our approach is actually lower than the MFS baseline (shown in italics) in Table 2.</S>
 			<S sid ="170" ssid = "37">(In fact, the baseline outperforms all systems for four of these terms.)The performance of our system is within 1% of thebaseline for five of these terms.</S>
-			<S sid ="171" ssid = "38">The remaining pair,“blood pressure” and “failure”, are included in theset of problematic words identified by (Weeber etal., 2001).</S>
+			<S sid ="171" ssid = "38">The remaining pair,blood pressure and failure, are included in theset of problematic words identified by (Weeber etal., 2001).</S>
 			<S sid ="172" ssid = "39">Examination of the possible senses showthat they include pairs with similar meanings.</S>
 			<S sid ="173" ssid = "40">For 85 MFS Leroy and Joshi et.</S>
 			<S sid ="174" ssid = "41">McInnes et.</S>
 			<S sid ="175" ssid = "42">Reportedbaseline Rindflesch (2005) al.</S>
 			<S sid ="176" ssid = "43">(2005) al.</S>
 			<S sid ="177" ssid = "44">(2007) system adjustment 62 57 71 70 74association 100 - - 97 100 blood pressure 54 46 53 46 46cold 8690 89 88 condition 90 - - 89 89culture 89 - - 94 95degree 63 68 89 79 95 depression 8586 81 88determination 79 - - 81 87 discharge 7495 96 95energy 99 - - 99 98 evaluation 50 57 69 73 81extraction 8284 86 85 failure 71 - - 73 67fat 7184 77 84fit 82 - - 87 88 fluid 100 - - 99 100frequency 94 - - 94 94ganglion 93 - - 94 96glucose 91 - - 90 91growth 63 62 71 69 68 immunosuppression 59 61 80 75 80implantation 8194 92 93 inhibition 98 - - 98 98japanese 7377 76 75 lead 7189 90 94man 58 80 89 80 90 mole 8395 87 93mosaic 52 66 87 75 87 nutrition 45 48 52 49 54pathology 8585 84 85 pressure 96 - - 93 95radiation 61 72 82 81 84reduction 8991 92 89 repair 52 81 87 93 88resistance 97 - - 96 98 scale 65 84 81 83 88secretion 99 - - 99 99 sensitivity 49 70 88 92 93sex 8088 87 87 single 99 - - 98 99strains 92 - - 92 93 support 90 - - 91 89surgery 98 - - 94 97 transient 99 - - 98 99transport 93 - - 93 93 ultrasound 8492 85 90variation 80 - - 91 95 weight 47 68 83 79 81white 49 62 79 74 76 Table 2: Per-word performance of best reported systems.</S>
-			<S sid ="178" ssid = "45">example, the two senses which account for 98% ofthe instances of “blood pressure”, which refer to theblood pressure within an organism and the result obtained from measuring this quantity, are very closelyrelated semantically.</S>
+			<S sid ="178" ssid = "45">example, the two senses which account for 98% ofthe instances of blood pressure, which refer to theblood pressure within an organism and the result obtained from measuring this quantity, are very closelyrelated semantically.</S>
 	</SECTION>
 	<SECTION title="Conclusion. " number = "5">
 			<S sid ="179" ssid = "1">This paper has compared a variety of knowledgesources for WSD of ambiguous biomedical termsand reported results which exceed the performanceof previously published approaches.</S>

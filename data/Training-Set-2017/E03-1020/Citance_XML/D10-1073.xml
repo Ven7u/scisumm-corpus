@@ -8,7 +8,7 @@
 	</ABSTRACT>
 	<SECTION title="Introduction" number = "1">
 			<S sid ="6" ssid = "6">A number of NLP problems can be cast into a graph-based framework, in which entities are representedas vertices in a graph and relations between them aredepicted by weighted or unweighted edges.</S>
-			<S sid ="7" ssid = "7">For instance, in unsupervised WSD a number of methods(Widdows and Dorow, 2002; Ve´ronis, 2004; Agirreet al., 2006) have constructed word cooccurrencegraphs for a target polysemous word and appliedgraph-clustering to obtain the clusters (senses) ofthat word.Similarly in text summarization, Mihalcea (2004)developed a method, in which sentences are rep resented as vertices in a graph and edges betweenthem are drawn according to their common tokensor words of a given POS category, e.g. nouns.Graph-based ranking algorithms, such as PageRank(Brin and Page, 1998), were then applied in orderto determine the significance of sentences.</S>
+			<S sid ="7" ssid = "7">For instance, in unsupervised WSD a number of methods(Widdows and Dorow, 2002; Veronis, 2004; Agirreet al., 2006) have constructed word cooccurrencegraphs for a target polysemous word and appliedgraph-clustering to obtain the clusters (senses) ofthat word.Similarly in text summarization, Mihalcea (2004)developed a method, in which sentences are rep resented as vertices in a graph and edges betweenthem are drawn according to their common tokensor words of a given POS category, e.g. nouns.Graph-based ranking algorithms, such as PageRank(Brin and Page, 1998), were then applied in orderto determine the significance of sentences.</S>
 			<S sid ="8" ssid = "8">In thesame vein, graph-based methods have been appliedto other problems such as determining semantic similarity of text (Ramage et al., 2009).</S>
 			<S sid ="9" ssid = "9">Recent studies (Clauset et al., 2006; Clauset etal., 2008) suggest that graphs exhibit a hierarchical structure (e.g. a binary tree), in which verticesare divided into groups that are further subdividedinto groups of groups, and so on, until we reach theleaves.</S>
 			<S sid ="10" ssid = "10">This hierarchical structure provides additional information as opposed to flat clustering byexplicitly including organisation at all scales of agraph (Clauset et al., 2008).</S>
@@ -28,15 +28,15 @@
 			<S sid ="22" ssid = "3">Oncethe co-occurrence graph of tw has been constructed,different graph clustering algorithms are applied toinduce the senses.</S>
 			<S sid ="23" ssid = "4">Each cluster (induced sense) consists of a set of words that are semantically related tothe particular sense.</S>
 			<S sid ="24" ssid = "5">Figure 2 shows an example ofa graph for the target word paper that appears withtwo different senses scholarly article and newspaper.</S>
-			<S sid ="25" ssid = "6">Ve´ronis (2004) has shown that cooccurrencegraphs are small-world networks that contain highlydense subgraphs representing the different clusters(senses) of the target word (Ve´ronis, 2004).</S>
-			<S sid ="26" ssid = "7">To identify these dense regions Ve´ronis’s algorithm iteratively finds their hubs, where a hub is a vertex with avery high degree.</S>
+			<S sid ="25" ssid = "6">Veronis (2004) has shown that cooccurrencegraphs are small-world networks that contain highlydense subgraphs representing the different clusters(senses) of the target word (Veronis, 2004).</S>
+			<S sid ="26" ssid = "7">To identify these dense regions Veroniss algorithm iteratively finds their hubs, where a hub is a vertex with avery high degree.</S>
 			<S sid ="27" ssid = "8">The degree of a vertex is defined tobe the number of edges incident to that vertex.</S>
 			<S sid ="28" ssid = "9">Theidentified hub is then deleted along with its directneighbours from the graph producing a new cluster.</S>
 			<S sid ="29" ssid = "10">For example, in Figure 2 the highest degree vertex, news, is the first hub, which would be deletedalong with its direct neighbours.</S>
 			<S sid ="30" ssid = "11">The deleted region corresponds to the newspaper sense of the target word paper.</S>
-			<S sid ="31" ssid = "12">Ve´ronis (2004) further processedthe identified clusters (senses), in order to assign therest of graph vertices to the identified clusters by utilising the minimum spanning tree of the originalgraph.</S>
+			<S sid ="31" ssid = "12">Veronis (2004) further processedthe identified clusters (senses), in order to assign therest of graph vertices to the identified clusters by utilising the minimum spanning tree of the originalgraph.</S>
 			<S sid ="32" ssid = "13">In Agirre et al.</S>
-			<S sid ="33" ssid = "14">(2006), the algorithm of Ve´ronis(2004) is analysed and assessed on the SensEval3dataset (Snyder and Palmer, 2004), after optimising its parameters on the SensEval2 dataset (Edmonds and Dorow, 2001).</S>
+			<S sid ="33" ssid = "14">(2006), the algorithm of Veronis(2004) is analysed and assessed on the SensEval3dataset (Snyder and Palmer, 2004), after optimising its parameters on the SensEval2 dataset (Edmonds and Dorow, 2001).</S>
 			<S sid ="34" ssid = "15">The results show that theWSD F-Score outperforms the Most Frequent Sense(MFS) baseline by approximately 10%, while inducing a large number of clusters (with averages of 60to 70).</S>
 			<S sid ="35" ssid = "16">Another graph-based method is presented in(Dorow and Widdows, 2003).</S>
 			<S sid ="36" ssid = "17">They extract onlynoun neighbours that appear in conjunctions or dis-junctions with the target word.</S>
@@ -61,7 +61,7 @@
 			<S sid ="53" ssid = "5">In our work, a context is defined as a paragraph2 containing thetarget word.</S>
 			<S sid ="54" ssid = "6">The aim of this stage is to capture nouns contextually related to tw.</S>
 			<S sid ="55" ssid = "7">Initially, the target word is removed from bc and part-of-speech tagging is appliedto each context.</S>
-			<S sid ="56" ssid = "8">Following the work in (Ve´ronis,2004; Agirre et al., 2006) only nouns are kept andlemmatised.</S>
+			<S sid ="56" ssid = "8">Following the work in (Veronis,2004; Agirre et al., 2006) only nouns are kept andlemmatised.</S>
 			<S sid ="57" ssid = "9">In the next step, the distribution of eachnoun in the base corpus is compared to the distribution of the same noun in a reference corpus3 using the log-likelihood ratio (G2) (Dunning, 1993).Nouns with a G2 below a pre-specified threshold(parameter p1) are removed from each paragraph ofthe base corpus.</S>
 			<S sid ="58" ssid = "10">The upper left part of Figure 3shows the words kept as a result of this stage.</S>
 			<S sid ="59" ssid = "11">3.2 Graph creationGraph vertices: To create the graph of vertices, werepresent each context ci as a vertex in a graph G.Graph edges: Edges between the vertices of thegraph are drawn based on their similarity, definedin Equation 1, where simcl(ci, cj) is the collocational weight of contexts ci, cj and simwd(ci, cj)is their bag-of-words weight.</S>
@@ -73,10 +73,10 @@
 			<S sid ="65" ssid = "17">2Our definition of context is equivalent to an instance of thetarget word in the SemEval2007 sense induction task dataset(Agirre and Soroa, 2007).</S>
 			<S sid ="66" ssid = "18">3The British National Corpus, 2001, Distributed by OxfordUniversity Computing Services.</S>
 			<S sid ="67" ssid = "19">747 Given two contexts ci and cj , we calculate theircollocational weight using the Jaccard coefficienton the collocational vectors, i.e. simcl(ci, cj) =|vinvj ||vi?vj | . The selection of Jaccard is based on the workof Weeds et al.</S>
-			<S sid ="68" ssid = "20">(2004), who analyzed the variationin a word’s distributionally nearest neighbours withrespect to a variety of similarity measures.</S>
+			<S sid ="68" ssid = "20">(2004), who analyzed the variationin a words distributionally nearest neighbours withrespect to a variety of similarity measures.</S>
 			<S sid ="69" ssid = "21">Theiranalysis showed that there are three classes of measures, i.e. those selecting distributionally more general neighbours (e.g. cosine), those selecting distributionally less general neighbours (e.g. AMCRM-Precision (Weeds et al., 2004)) and those without abias towards the distributional generality of a neigh-bour (e.g. Jaccard).</S>
 			<S sid ="70" ssid = "22">In our setting, we are interestedin calculating the similarity between two contextswithout any bias.</S>
-			<S sid ="71" ssid = "23">We selected Jaccard, since the restof that class’s measures are based on pointwise mutual information that assigns high weights to infrequent events.Bag-of-words weight: Estimating context similarity using collocations may provide reliable estimatesregarding the existence of an edge in the graph, however, it also suffers from data sparsity.</S>
+			<S sid ="71" ssid = "23">We selected Jaccard, since the restof that classs measures are based on pointwise mutual information that assigns high weights to infrequent events.Bag-of-words weight: Estimating context similarity using collocations may provide reliable estimatesregarding the existence of an edge in the graph, however, it also suffers from data sparsity.</S>
 			<S sid ="72" ssid = "24">For this reason, we also employ a bag-of-words model.</S>
 			<S sid ="73" ssid = "25">Specifically, each context ci is associated with a vector githat contains the nouns kept as result of the corpuspreprocessing stage.</S>
 			<S sid ="74" ssid = "26">The upper left part of Figure3 shows the words associated with each context ofour example.</S>
@@ -112,11 +112,11 @@
 			<S sid ="102" ssid = "25">Thismeans that high-likelihood dendrograms partitionvertices into subtrees, such that the connectionsamong their vertices in the observed graph are eithervery rare or very common (Clauset et al., 2008).</S>
 			<S sid ="103" ssid = "26">Forexample, consider the two dendrograms in Figures4(A) and 4(B).</S>
 			<S sid ="104" ssid = "27">We observe that 4(A) is more likelythan 4(B), since it provides a better division of thenetwork leaves.</S>
-			<S sid ="105" ssid = "28">Particularly, the likelihood of 4(A)is L(D1) = (11 · (11)1) · (11 · (11)1) · (0.251 ·(10.25)3) = 0.105, while the likelihood of 4(B)is L(D2) = (00 · (10)1) · (11 · (11)1) · (0.52 ·(10.5)2) = 0.062.</S>
+			<S sid ="105" ssid = "28">Particularly, the likelihood of 4(A)is L(D1) = (11  (11)1)  (11  (11)1)  (0.251 (10.25)3) = 0.105, while the likelihood of 4(B)is L(D2) = (00  (10)1)  (11  (11)1)  (0.52 (10.5)2) = 0.062.</S>
 			<S sid ="106" ssid = "29">4.2.1 MCMC samplingFinding the values of ?k using the MLE method is straightforward.</S>
 			<S sid ="107" ssid = "30">However, this is not the casefor maximising the likelihood function over thespace of all possible dendrograms.</S>
 			<S sid ="108" ssid = "31">Given a graphwith n vertices, i.e. n leaves in each dendrogram,the total number of different dendrograms is super-exponential ((2n3)!!</S>
-			<S sid ="109" ssid = "32">˜ v2(2n)n-1e-n) (Clausetet al., 2006).</S>
+			<S sid ="109" ssid = "32"> v2(2n)n-1e-n) (Clausetet al., 2006).</S>
 			<S sid ="110" ssid = "33">To deal with this problem, we use a MarkovChain Monte Carlo (MCMC) method that samplesdendrograms from the space of dendrogram models with probability proportional to their likelihood.Each time MCMC samples a dendrogram with anew highest likelihood, that dendrogram is stored.Hence, our goal is to choose the highest likelihooddendrogram once MCMC has converged.</S>
 			<S sid ="111" ssid = "34">Following the work in (Clauset et al., 2008),we pick a set of transitions between dendrograms,where a transition is a rearrangement of the sub-trees of a dendrogram.</S>
 			<S sid ="112" ssid = "35">In particular, given a currentdendrogram Dcurr, each internal node Dk of Dcurris associated with three subtrees of Dcurr.</S>
@@ -154,10 +154,10 @@
 			<S sid ="142" ssid = "21">As a result, a testingcontext cj of tw is a leaf in the generated dendro-gram.</S>
 			<S sid ="143" ssid = "22">The process of disambiguating cj is straightforward exploiting the structural information provided by HRGs.</S>
 			<S sid ="144" ssid = "23">w(sk, cj) =?</S>
-			<S sid ="145" ssid = "24">Di?H(cj)P (sk|Di) · ?i (6) w(s*, cj) = argmax sk(w(sk, cj)) (7) Let H(cj) denote the set of parents for context cj .Then, the weight assigned to sense sk is the sum ofweighted scores provided by each identified parent.This is shown in Equation 6, where ?i is the probability associated with each internal nodeDi from thehierarchical random graph (see Figure 4(A)).</S>
+			<S sid ="145" ssid = "24">Di?H(cj)P (sk|Di)  ?i (6) w(s*, cj) = argmax sk(w(sk, cj)) (7) Let H(cj) denote the set of parents for context cj .Then, the weight assigned to sense sk is the sum ofweighted scores provided by each identified parent.This is shown in Equation 6, where ?i is the probability associated with each internal nodeDi from thehierarchical random graph (see Figure 4(A)).</S>
 			<S sid ="146" ssid = "25">Thisprobability reflects the discriminating ability of internal nodes.</S>
 			<S sid ="147" ssid = "26">Finally, the highest weight determines the winning sense for context cj (Equation 7).</S>
-			<S sid ="148" ssid = "27">In our example (Figure 4(A)), w(s1, C) = (0 ·1+ 23 ·0.25) =0.16 andw(s2, C) = (1·1+ 13 ·0.25) = 1.08.</S>
+			<S sid ="148" ssid = "27">In our example (Figure 4(A)), w(s1, C) = (0 1+ 23 0.25) =0.16 andw(s2, C) = (11+ 13 0.25) = 1.08.</S>
 			<S sid ="149" ssid = "28">Hence,s2 is the winning sense.</S>
 			<S sid ="150" ssid = "29">750 Parameter RangeG2 word threshold (p1) 15,25,35,45G2 collocation threshold (p2) 10,15,20Edge similarity threshold (p3) 0.05,0.09,0.13 Table 2: Parameter values used in the evaluation.</S>
 	</SECTION>
@@ -187,7 +187,7 @@
 			<S sid ="173" ssid = "23">Figure 6(A) shows the performance of theproposed method against the baselines for p3 = 0.05and different p1 and p2 values.</S>
 			<S sid ="174" ssid = "24">Figure 6(B) illustrates the results of the same experiment usingp3 = 0.09.</S>
 			<S sid ="175" ssid = "25">In both figures, we observe that HRGsoutperform the CWU baseline under all parametercombinations.</S>
-			<S sid ="176" ssid = "26">In particular, all of the 12 performance differences for p3 = 0.09 are statisticallysignificant using McNemar’s test at 95% confidencelevel, while for p3 = 0.05 only 2 out of the 12 performance differences were not judged as significantfrom the test.</S>
+			<S sid ="176" ssid = "26">In particular, all of the 12 performance differences for p3 = 0.09 are statisticallysignificant using McNemars test at 95% confidencelevel, while for p3 = 0.05 only 2 out of the 12 performance differences were not judged as significantfrom the test.</S>
 			<S sid ="177" ssid = "27">The picture is the same for p3 = 0.13, whereCWU performs significantly worse than for p3 = 751 Figure 6: Performance analysis of HRGs, CWU, CWW &amp; HAC for different parameter combinations (Table 2).</S>
 			<S sid ="178" ssid = "28">(A)All combinations of p1, p2 and p3 = 0.05.</S>
 			<S sid ="179" ssid = "29">(B) All combinations of p1, p2 and p3 = 0.09.</S>
@@ -233,14 +233,14 @@
 			<S sid ="219" ssid = "69">(2007) developed a vector-basedmethod that performs sense induction by grouping the contexts of a target word using three typesof features, i.e. POS tags of neighbouring words,word co-occurrences and local collocations.</S>
 			<S sid ="220" ssid = "70">The sequential information bottleneck algorithm (Slonimet al., 2002) is applied for clustering.</S>
 			<S sid ="221" ssid = "71">HRGs performslightly better than the methods of Brody &amp; Lap-ata (2009) and Niu et al.</S>
-			<S sid ="222" ssid = "72">(2007), although the differences are not significant (McNemar’s test at 95%confidence level).Klapaftis &amp; Manandhar (2008) developed agraph-based sense induction method, in which vertices correspond to collocations related to the target word and edges between vertices are drawn ac 753 System Performance (%)HRGs 87.6(Brody and Lapata, 2009) 87.3(Niu et al., 2007) 86.8(Klapaftis and Manandhar, 2008) 86.4HAC 86.0CWU 85.1CWW 84.7(Pedersen, 2007) 84.5MFS 80.9 Table 3: HRGs against recent methods &amp; baselines.</S>
+			<S sid ="222" ssid = "72">(2007), although the differences are not significant (McNemars test at 95%confidence level).Klapaftis &amp; Manandhar (2008) developed agraph-based sense induction method, in which vertices correspond to collocations related to the target word and edges between vertices are drawn ac 753 System Performance (%)HRGs 87.6(Brody and Lapata, 2009) 87.3(Niu et al., 2007) 86.8(Klapaftis and Manandhar, 2008) 86.4HAC 86.0CWU 85.1CWW 84.7(Pedersen, 2007) 84.5MFS 80.9 Table 3: HRGs against recent methods &amp; baselines.</S>
 			<S sid ="223" ssid = "73">cording to the co-occurrence frequency of the corresponding collocations.</S>
 			<S sid ="224" ssid = "74">The constructed graph issmoothed to identify more edges between verticesand then clustered using Chinese Whispers (Biemann, 2006).</S>
 			<S sid ="225" ssid = "75">This method is related to the basicinputs of our presented method.</S>
 			<S sid ="226" ssid = "76">Despite that, it isa flat clustering method that ignores the hierarchicalstructure exhibited by observed graphs.</S>
 			<S sid ="227" ssid = "77">The previous section has shown that inferring the hierarchicalstructure of graphs leads to superior WSD performance.</S>
 			<S sid ="228" ssid = "78">Pedersen (2007) presented SenseClusters, avector-based method that clusters second order co-occurrence vectors using k-means, where k is automatically determined using the Adapted Gap Statistic (Pedersen and Kulkarni, 2006).</S>
-			<S sid ="229" ssid = "79">As can be observed, HRGs perform significantly better than themethods of Pedersen (2007) and Klapaftis &amp; Man-andhar (2008) (McNemar’s test at 95% confidencelevel).</S>
+			<S sid ="229" ssid = "79">As can be observed, HRGs perform significantly better than themethods of Pedersen (2007) and Klapaftis &amp; Man-andhar (2008) (McNemars test at 95% confidencelevel).</S>
 			<S sid ="230" ssid = "80">Finally, Table 3 shows that the best performingparameter combination of HRGs achieves a significantly higher F-Score than the best performing parameter combination of HAC, CWU and CWW.</S>
 			<S sid ="231" ssid = "81">Furthermore, HRGs outperform the most frequent sensebaseline by 6.7%.</S>
 	</SECTION>
@@ -248,7 +248,7 @@
 			<S sid ="232" ssid = "1">We presented an unsupervised method for inferringthe hierarchical grouping of the senses of a polysemous word.</S>
 			<S sid ="233" ssid = "2">Our method creates a graph, in whichvertices correspond to contexts of a polysemous target word and edges between them are drawn according to their similarity.</S>
 			<S sid ="234" ssid = "3">The hierarchical randomgraphs algorithm (Clauset et al., 2008) was applied to the constructed graph in order to infer its hierarchical structure, i.e. binary tree.</S>
-			<S sid ="235" ssid = "4">The learned tree provides an induction of thesenses of a given word at different levels of sensegranularity and was applied to the problem of WSD.The WSD process mapped the tree’s internal nodesto GS senses using a sense tagged corpus, and thentagged new instances by exploiting the structural information provided by the tree.</S>
+			<S sid ="235" ssid = "4">The learned tree provides an induction of thesenses of a given word at different levels of sensegranularity and was applied to the problem of WSD.The WSD process mapped the trees internal nodesto GS senses using a sense tagged corpus, and thentagged new instances by exploiting the structural information provided by the tree.</S>
 			<S sid ="236" ssid = "5">Our experimental results have shown that ourgraphs exhibit hierarchical organisation that canbe captured by HRGs, in effect providing improved WSD performance compared to flat clustering.</S>
 			<S sid ="237" ssid = "6">Additionally, our comparison against hierarchical agglomerative clustering with average-linkagehas shown that HRGs perform significantly betterthan HAC when the graphs do not suffer from sparsity (disconnected graphs).</S>
 			<S sid ="238" ssid = "7">The comparison withstate-of-the-art sense induction systems has shownthat our method yields improvements.</S>

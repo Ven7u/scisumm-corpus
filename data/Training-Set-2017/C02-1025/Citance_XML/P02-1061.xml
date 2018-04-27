@@ -17,7 +17,7 @@
 			<S sid ="13" ssid = "13">When data is sparse, many named entities in the test data would be unknown words.</S>
 			<S sid ="14" ssid = "14">This makes upper case named entity recognition more difficult than mixed case.</S>
 			<S sid ="15" ssid = "15">Even a human would experience greater difficulty in annotating upper case text than mixed case text (Figure 1).</S>
-			<S sid ="16" ssid = "16">We propose using a mixed case NER to “teach” an upper case NER, by making use of unlabeled mixed case text.</S>
+			<S sid ="16" ssid = "16">We propose using a mixed case NER to teach an upper case NER, by making use of unlabeled mixed case text.</S>
 			<S sid ="17" ssid = "17">With the abundance of mixed case un the Internet, it will be easy to apply our approach to improve the performance of NER on upper case text.</S>
 			<S sid ="18" ssid = "18">Our approach does not satisfy the usual assumptions of co-training (Blum and Mitchell, 1998).</S>
 			<S sid ="19" ssid = "19">Intuitively, however, one would expect some information to be gained from mixed case unlabeled text, where case information is helpful in pointing out new words that could be named entities.</S>
@@ -27,7 +27,7 @@
 	</SECTION>
 	<SECTION title="Related Work. " number = "2">
 			<S sid ="23" ssid = "1">Considerable amount of work has been done in recent years on NERs, partly due to the Message Understanding Conferences (MUC6, 1995; MUC7, 1998).</S>
-			<S sid ="24" ssid = "2">Machine learning methods such as BBN’s IdentiFinder (Bikel, Schwartz, and Weischedel, 1999) and Borthwick’s MENE (Borth- wick, 1999) have shown that machine learning NERs can achieve comparable performance with systems using hand-coded rules.</S>
+			<S sid ="24" ssid = "2">Machine learning methods such as BBNs IdentiFinder (Bikel, Schwartz, and Weischedel, 1999) and Borthwicks MENE (Borth- wick, 1999) have shown that machine learning NERs can achieve comparable performance with systems using hand-coded rules.</S>
 			<S sid ="25" ssid = "3">Bikel, Schwartz, and Weischedel (1999) have also shown how mixed case text can be automatically converted to upper case SNOR or OCR format to train NERs to work on such formats.</S>
 			<S sid ="26" ssid = "4">There is also some work on unsupervised learning for mixed case named entity recognition (Collins and Singer, 1999; Cucerzan and Yarowsky, 1999).</S>
 			<S sid ="27" ssid = "5">Collins and Singer (1999) investigated named entity classification using Ad- aboost, CoBoost, and the EM algorithm.</S>
@@ -99,7 +99,7 @@
 			<S sid ="91" ssid = "44">If is seen infrequently during training (less than a small count), then will not selected as a feature and all features in this group are set to 0.</S>
 			<S sid ="92" ssid = "45">Lexicon Feature of Previous and Next Token: The string of the previous token and the next token is used with the initCaps information of . If has initCaps, then a feature (initCaps, ) is set to 1.</S>
 			<S sid ="93" ssid = "46">If is not initCaps, then (not- initCaps, ) is set to 1.</S>
-			<S sid ="94" ssid = "47">Same for . In the case where the next token is a hyphen, then is also used as a feature: (initCaps, ) of hyphens can be considered to be optional (e.g., “third-quarter” or “third quarter”).</S>
+			<S sid ="94" ssid = "47">Same for . In the case where the next token is a hyphen, then is also used as a feature: (initCaps, ) of hyphens can be considered to be optional (e.g., third-quarter or third quarter).</S>
 			<S sid ="95" ssid = "48">Out-of-Vocabulary: We derived a lexicon list from WordNet 1.6, and words that are not found in this list have a feature out-of-vocabulary set to 1.</S>
 			<S sid ="96" ssid = "49">Dictionaries: Due to the limited amount of training material, name dictionaries have been found to be useful in the named entity task.</S>
 			<S sid ="97" ssid = "50">The sources of our dictionaries are listed in Table 2.</S>
@@ -126,13 +126,13 @@
 			<S sid ="118" ssid = "71">Acronyms: Words made up of all capitalized letters in the text zone will be stored as acronyms (e.g., IBM).</S>
 			<S sid ="119" ssid = "72">The system will then look for sequences of initial capitalized words that match the acronyms found in the whole document.</S>
 			<S sid ="120" ssid = "73">Such sequences are given additional features of A begin, A continue, or A end, and the acronym is given a feature A unique.</S>
-			<S sid ="121" ssid = "74">For example, if “FCC” and “Federal Communications Commission” are both found in a document, then “Federal” has A begin set to 1, “Communications” has A continue set to 1, “Commission” has A end set to 1, and “FCC” has A unique set to 1.</S>
-			<S sid ="122" ssid = "75">Sequence of Initial Caps: In the sentence “Even News Broadcasting Corp., noted for its accurate reporting, made the erroneous announcement.”, a NER may mistake “Even News Broadcasting Corp.” as an organization name.</S>
-			<S sid ="123" ssid = "76">However, it is unlikely that other occurrences of “News Broadcasting Corp.” in the same document also co-occur with “Even”.</S>
+			<S sid ="121" ssid = "74">For example, if FCC and Federal Communications Commission are both found in a document, then Federal has A begin set to 1, Communications has A continue set to 1, Commission has A end set to 1, and FCC has A unique set to 1.</S>
+			<S sid ="122" ssid = "75">Sequence of Initial Caps: In the sentence Even News Broadcasting Corp., noted for its accurate reporting, made the erroneous announcement., a NER may mistake Even News Broadcasting Corp. as an organization name.</S>
+			<S sid ="123" ssid = "76">However, it is unlikely that other occurrences of News Broadcasting Corp. in the same document also co-occur with Even.</S>
 			<S sid ="124" ssid = "77">This group of features attempts to capture such information.</S>
 			<S sid ="125" ssid = "78">For every sequence of initial capitalized words, its longest substring that occurs in the same document is identified.</S>
-			<S sid ="126" ssid = "79">For this example, since the sequence “Even News Broadcasting Corp.” only appears once in the document, its longest substring that occurs in the same document is “News Broadcasting Corp.”.</S>
-			<S sid ="127" ssid = "80">In this case, “News” has an additional feature of I begin set to 1,“Broadcasting” has an additional feature of I continue set to 1, and “Corp.” has an additional feature of I end set to 1.</S>
+			<S sid ="126" ssid = "79">For this example, since the sequence Even News Broadcasting Corp. only appears once in the document, its longest substring that occurs in the same document is News Broadcasting Corp..</S>
+			<S sid ="127" ssid = "80">In this case, News has an additional feature of I begin set to 1,Broadcasting has an additional feature of I continue set to 1, and Corp. has an additional feature of I end set to 1.</S>
 			<S sid ="128" ssid = "81">Unique Occurrences and Zone: This group of features indicates whether the word is unique in the whole document.</S>
 			<S sid ="129" ssid = "82">needs to be in initCaps to be considered for this feature.</S>
 			<S sid ="130" ssid = "83">If is unique, then a feature (Unique, Zone) is set to 1, where Zone is the document zone where appears.</S>
@@ -195,6 +195,6 @@
 			<S sid ="181" ssid = "4">This approach can be used to improve the performance of NERs on speech recognition output, or even for other tasks such as part-of-speech tagging, where case information is helpful.</S>
 			<S sid ="182" ssid = "5">With the abundance of unlabeled text available, such an approach requires no additional annotation effort, and hence is easily applicable.</S>
 			<S sid ="183" ssid = "6">This way of teaching a weaker classifier can also be used in other domains, where the task is to infer , and an abundance of unlabeled data is available.</S>
-			<S sid ="184" ssid = "7">If one possesses a second classifier such that provides additional “useful” information that can be utilized by this second classifier, then one can use this second classifier to automatically tag the unlabeled data , and select from examples that can be used to supplement the training data for training .</S>
+			<S sid ="184" ssid = "7">If one possesses a second classifier such that provides additional useful information that can be utilized by this second classifier, then one can use this second classifier to automatically tag the unlabeled data , and select from examples that can be used to supplement the training data for training .</S>
 	</SECTION>
 </PAPER>

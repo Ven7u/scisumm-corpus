@@ -31,7 +31,7 @@
 			<S sid ="24" ssid = "7">Instead we link each word to its top n neighbors where n can be determined by the user (cf.</S>
 			<S sid ="25" ssid = "8">section 4)..</S>
 			<S sid ="26" ssid = "9">41=0 441=P .4161.</S>
-			<S sid ="27" ssid = "10">sz44, CD miltrA, litrepate inovio.„ h,) Cik Figure 1: Local graph of the word mouse</S>
+			<S sid ="27" ssid = "10">sz44, CD miltrA, litrepate inovio. h,) Cik Figure 1: Local graph of the word mouse</S>
 	</SECTION>
 	<SECTION title="Markov Clustering. " number = "3">
 			<S sid ="28" ssid = "1">Ambiguous words link otherwise unrelated areas of meaning E.g. rat and printer are very different in meaning, but they are both closely related to different meanings of mouse.</S>
@@ -46,11 +46,11 @@
 			<S sid ="37" ssid = "10">To detect the different areas of meaning in our local graphs, we use a cluster algorithm for graphs (Markov clustering, MCL) developed by van Dongen (2000).</S>
 			<S sid ="38" ssid = "11">The idea underlying the MCL-algorithm is that random walks within the graph will tend to stay in the same cluster rather than jump between clusters.</S>
 			<S sid ="39" ssid = "12">The following notation and description of the MCL algorithm borrows heavily from van Dongen (2000).</S>
-			<S sid ="40" ssid = "13">Let G„, denote the local graph around the ambiguous word w. The adjacency matrix MG„ 4111) 11‘ 41 4Wit ler,1110.1/.17, cgtoserek¦Ilt Figure 2: Local graph of the word wing of a graph G„, is defined by setting (111G„) pq equal to the weight of the edge between nodes v and v q . Normalizing the columns of A/G„ results in the Markov Matrix Taw whose entries (Thi,)pq can be interpreted as transition probability from v q to vv . It can easily be shown that the k-th power of TG„ lists the probabilities (TL )pq of a path of length k starting at node vq and ending at node V. The MCL-algorithm simulates flow in Gw by iteratively recomputing the set of transition probabilities via two steps, expansion and inflation.</S>
-			<S sid ="41" ssid = "14">The expansion step corresponds with taking the k-th power of TG„ as outlined above and allows nodes to see new neighbours.</S>
+			<S sid ="40" ssid = "13">Let G, denote the local graph around the ambiguous word w. The adjacency matrix MG 4111) 11 41 4Wit ler,1110.1/.17, cgtoserekIlt Figure 2: Local graph of the word wing of a graph G, is defined by setting (111G) pq equal to the weight of the edge between nodes v and v q . Normalizing the columns of A/G results in the Markov Matrix Taw whose entries (Thi,)pq can be interpreted as transition probability from v q to vv . It can easily be shown that the k-th power of TG lists the probabilities (TL )pq of a path of length k starting at node vq and ending at node V. The MCL-algorithm simulates flow in Gw by iteratively recomputing the set of transition probabilities via two steps, expansion and inflation.</S>
+			<S sid ="41" ssid = "14">The expansion step corresponds with taking the k-th power of TG as outlined above and allows nodes to see new neighbours.</S>
 			<S sid ="42" ssid = "15">The inflation step takes each matrix entry to the r-th power and then rescales each column so that the entries sum to 1.Vi a inflation, popular neighbours are further supported at the expense of less popular ones.</S>
 			<S sid ="43" ssid = "16">Flow within dense regions in the graph is concentrated by both expansion and inflation.</S>
-			<S sid ="44" ssid = "17">Eventually, flow between dense regions will disappear, the matrix of transition probabilities TG„ will converge and the limiting matrix can be interpreted as a clustering of the graph.</S>
+			<S sid ="44" ssid = "17">Eventually, flow between dense regions will disappear, the matrix of transition probabilities TG will converge and the limiting matrix can be interpreted as a clustering of the graph.</S>
 	</SECTION>
 	<SECTION title="Word Sense Clustering Algorithm. " number = "4">
 			<S sid ="45" ssid = "1">The output of the MCL-algorithm strongly depends on the inflation and expansion parameters r and k as well as the size of the local graph which serves as input to MCL.</S>
